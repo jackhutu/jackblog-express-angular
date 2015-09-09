@@ -1,0 +1,88 @@
+<div ng-include="'app/components/navbar/navbar.html'"></div>
+<div class="manage-box">
+	<div class="manage-container user-manage">
+		  	<h1 class="text-center">用户管理-用户列表</h1>
+		  	<hr />
+		  	<div class="table-toolbar">
+		  	    <div class=" btn-group">
+		  	        <button class="btn btn-primary" ng-click="add()">
+		  	            增加用户 <i class="fa fa-plus"></i>
+		  	        </button>
+		  	    </div>
+		  	    <div class="btn-group pull-right">
+		  	        <div class="dataTables_filter">
+		  	            <input type="text" placeholder="搜索" ng-model="q" class="form-control input-medium">
+		  	        </div>
+		  	    </div>
+
+		  	</div>
+		  	<div class="portlet-body table-responsive">
+				  	<table class="table table-striped table-bordered table-hover table-condensed">
+				  	    <thead>
+				  	        <tr>
+				  	            <th>
+				  	                呢称
+				  	            </th>
+				  	            <th>
+				  	                Email
+				  	            </th>
+				  	            <th>角色</th>
+				  	            <th>状态</th>
+				  	            <th>注册方式</th>
+				  	            <th>注册时间</th>
+				  	            <th>更新时间</th>
+
+				  	            <th class="text-center">
+				  	                管理
+				  	            </th>
+				  	        </tr>
+				  	    </thead>
+				  	    <tbody>
+
+				  	        <tr class="odd gradeX" ng-repeat="user in userList | filter:q">
+				  	            <td>
+				  	                <span>{{user.nickname}}</span>
+				  	            </td>
+				  	            <td>
+				  	                <span>{{user.email}}</span>
+				  	            </td>
+				  	            <td>
+				  	                <span>{{user.role}}</span>
+				  	            </td>
+				  	            <td>
+				  	            	<span class="label label-sm" ng-class="{'label-success': (user.status == 1),'label-warning':(user.status == 0),'label-default':(user.status == 2)}">
+				  	            	    {{user.status | userStatus}}
+				  	            	</span>
+				  	            </td>
+
+				  	            <td>
+				  	            		{{user.provider}}
+				  	            </td>
+
+				  	            <td>                                        
+				  	            		{{user.created | date:'short'}}
+												</td>
+				  	            <td>
+				  	            		{{user.updated | date:'short'}}
+				  	            </td>				  	            
+				  	            <td class="text-center">
+				  	                <a href="" ng-click="edit(user)">Edit</a>&nbsp;&nbsp;
+				  	                <a href="" ng-click="del(user)">Delete</a>
+				  	            </td>
+				  	        </tr>
+
+				  	    </tbody>
+				  	</table>
+					</div>
+
+					<!---分页-->
+					<div class="row">
+					    <div class="col-sm-5 col-xs-12"><div class="dataTables_info">Page: {{options.currentPage}} / {{numPages}} of {{bigTotalItems}}</div></div>
+					    <div class="col-sm-7 col-xs-12">
+					        <pagination ng-change="pageChanged()" total-items="bigTotalItems" ng-model="options.currentPage" max-size="maxSize" items-per-page="options.itemsPerPage" class="pagination-md pull-right" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+					    </div>
+					</div>
+
+					<!---分页结束-->
+	</div>
+</div>

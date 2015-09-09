@@ -1,0 +1,65 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add User</h3>
+</div>
+<div class="modal-body">
+    <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <form name="addUserForm" class="form-horizontal" novalidate>
+            <div class="form-body">
+                <div class="form-group">
+                    <label class="control-label col-md-4">Nick Name
+                        <span class="required">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-6">
+                        <input type="text" placeholder="呢称" autocomplete="off" ng-model="user.nickname" required class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4">Email
+                        <span class="required">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-6">
+                        <input type="email" placeholder="邮箱" autocomplete="off" ng-model="user.email" required class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4">Password
+                        <span class="required">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-6">
+                        <input type="password" placeholder="密码" autocomplete="off" ng-model="user.password" required class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4">Status
+                       <span class="required">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-8">
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="user.status" value="1"> Authenticated </label>
+
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="user.status" value="0"> Unverified </label>
+
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="user.status" value="2"> Blocked </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- END FORM-->
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-disabled="addUserForm.$invalid" ng-click="ok(addUserForm)">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

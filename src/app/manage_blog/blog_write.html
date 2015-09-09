@@ -1,0 +1,79 @@
+<div ng-include="'app/components/navbar/navbar.html'"></div>
+<div class="manage-box">
+	<div class="manage-container write-blog">
+		  	<h1 class="text-center">开始写博客</h1>
+		  	<hr />
+		  <form class="write-blog-form" name="writeBlogForm" method="post" novalidate>
+				<div class="form-group">
+				   <label>标题</label>
+				   <input type="text" class="form-control" required ng-model="article.title" placeholder="标题">
+				 </div>
+				 <div class="form-group">
+				    <label>添加标签</label>
+				    <div class="row">
+				    	<div class="col-xs-6">
+				    		<select class="form-control" ng-model="tag" ng-options="tag as tag.name group by tag.cid.name for tag in tagList">
+				    		  <option value="">--请选择--</option>
+				    		</select>
+
+				    	</div>
+				    	<div class="col-xs-6">
+				    		<button type="button" ng-click="addTag(tag)" class="btn btn-primary btn-block add-tag-btn">添加</button>
+				    	</div>
+
+				    </div>
+
+				  </div>
+				
+				<div class="form-group">
+					<label>标签列表(双击删除)</label>
+					<div class="select-tags">
+							<button type="button" class="btn btn-warning" ng-dblclick="delTag(key)" ng-repeat="(key, value) in article.tags">{{value.name}}</button>
+					</div>
+				</div>
+				
+
+				<div class="form-group">
+					<label>图片列表
+							<button type="button" ng-click="addImages()" class="btn btn-primary">添加图片</button>
+					</label>
+				
+					<input type="text" class="form-control show-image-url" ng-model="selectImageUrl">
+
+					<div class="select-images">
+ 							<div class="col-md-3 col-sm-4 col-xs-6 image-list" ng-repeat="image in images">
+						    <img ng-click="showUrl(image.url)" ng-src="{{image.url}}">
+						    <button type="button" class="btn btn-default btn-sm" ng-click="showUrl(image.url)">显示URL</button>
+						 		<button type="button" class="btn btn-default btn-sm" ng-click="delImage($index)">删除</button>
+						  </div>
+					</div>
+				</div>
+
+				<div class="form-group">
+				   <label>内容</label>
+				   <div>
+				   <textarea class="form-control" ng-model="article.content" required markdowneditor rows="15"></textarea>
+				   </div>
+				 </div>
+
+				 <div class="form-group">
+				     <label class="control-label">是否置顶
+				     </label>
+				     <div>
+				         <label class="radio-inline">
+				             <input type="radio" ng-model="article.top" ng-value="true"> 是 </label>
+
+				         <label class="radio-inline">
+				             <input type="radio" ng-model="article.top" ng-value="false"> 否 </label>
+
+				     </div>
+				 </div>
+
+				 <p>
+				   <button type="button" ng-disabled="writeBlogForm.$invalid" class="btn btn-default btn-lg" ng-click="preview()">预览</button>
+				   <button type="button" ng-disabled="writeBlogForm.$invalid" class="btn btn-info btn-lg" ng-click="save()">保存为草稿</button>
+				   <button type="button" ng-disabled="writeBlogForm.$invalid" class="btn btn-primary btn-lg" id="save_pub_btn" ng-click="save(1)">保存并发布</button>
+				 </p>
+			</form>
+	</div>
+</div>

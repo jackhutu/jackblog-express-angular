@@ -1,0 +1,32 @@
+<div class="comment-item">
+  <div class="content">
+      <div class="meta-top">
+        <a class="avatar">
+          <img ng-src="{{comment.user_id.avatar || default_avatar}}" alt="{{comment.user_id.nickname}}">
+        </a>        
+        <a class="author-name link-light">{{comment.user_id.nickname}}</a>
+        <span class="reply-time">
+          {{comment.created | date:'yyyy.MM.dd hh:mm'}}
+        </span>
+      </div>
+      <p class="comment-content">{{comment.content}}</p>
+      <div class="comment-footer text-right">
+        <a class="delete" ng-if="isAdmin()" href="javascript:;" ng-click="delComment($index,comment._id)">删除</a>
+        <a class="reply" href="javascript:void(0)" ng-click="showReply($index,comment.user_id.nickname)">回复</a>
+      </div>
+      <!--  回复列表   -->
+      <div class="reply-list" ng-init="isReply = false" ng-show="comment.replys.length > 0 || isReply">
+        
+        <reply ng-repeat="reply in comment.replys track by $index"></reply>
+
+        <form class="new-reply" ng-show="isReply"> 
+          <div class="comment-text"> 
+            <textarea id="replyContent{{$index}}" ng-model="replyContent" maxlength="2000" placeholder="写下你的回复…"></textarea> 
+            <div> 
+              <input type="button" ng-click="submitNewReply(comment._id,replyContent,$index)" value="发 表" id="reply_submit_btn_{{$index}}" class="btn btn-sm btn-info"> 
+            </div> 
+          </div>
+        </form>
+      </div>
+  </div>
+</div>

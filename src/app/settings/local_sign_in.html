@@ -1,0 +1,53 @@
+<div ng-include="'app/components/navbar/navbar.html'"></div>
+	<div class="signin-box">
+		<div class="signin-container">
+		    <h4 class="title">登 录</h4>
+			  <form class="signin-form form-horizontal" name="signinForm" ng-submit="login(signinForm)" ng-keypress="loginPress($event,signinForm)" novalidate>
+				    <div class="form-group">
+				  		<div class="input-group">
+				        <div class="input-group-addon">
+				        	<i class="fa fa-envelope-o"></i>
+				        </div>
+				        <input type="text" required email ng-minlength="3" ng-maxlength="30" ng-model="user.email" class="form-control" placeholder="邮箱" />
+				      </div>
+				    </div>
+			      <div class="form-group">
+			    		<div class="input-group">
+			          <div class="input-group-addon"><i class="fa fa-unlock-alt"></i></div>
+			          <input type="password" required ng-model="user.password" class="form-control" placeholder="密码" />
+			        </div>
+			      </div>
+			      <div class="form-group" >
+			      	<div class="col-xs-6 captcha-code">
+			      		<input class="form-control" required maxlength="6" type="text" name="captcha" ng-model="user.captcha" placeholder="验证码">
+			      	</div>
+			      	<div class="col-xs-6 captcha-img">
+			      		<a href="javascript:;" ng-click="changeCaptcha()">
+			      			<img ng-src="{{captchaUrl}}" />
+			      		</a>
+			      	</div>
+
+			      </div>
+			      <div class="form-group">
+			      	<button class="btn btn-primary btn-lg btn-block" type="submit" ng-disabled="signinForm.$invalid" id="signin_btn">登 录</button>
+			      </div>
+
+				</form>
+
+				<div class="login-sns">
+			      <p>您还可以通过以下方式直接登录</p>
+			      <ul>
+				      <li ng-click="loginOauth('github')">
+				        <a class="github" href="javascript:;"><i class="fa fa-github"></i></a>
+				      </li>
+			        <li ng-click="loginOauth('wiebo')">
+			          <a class="weibo" href="javascript:;"><i class="fa fa-weibo"></i></a>
+			        </li>
+			        <li ng-click="loginOauth('qq')">
+			          <a class="qq" href="javascript:;"><i class="fa fa-qq"></i></a>
+			        </li>
+			      </ul>
+			  </div>
+		</div>
+
+	</div>

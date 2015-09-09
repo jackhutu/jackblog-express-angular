@@ -1,0 +1,70 @@
+<div ng-include="'app/components/navbar/navbar.html'"></div>
+<div class="article-box">
+  <!-- 文章开始 -->
+  <div class="article-container">
+      <h1 class="title">{{article.title}}</h1>
+      <div class="counts">
+        <span class="views-count">阅读{{article.visit_count}}</span>
+        <span class="comments-count">评论{{article.comment_count}}</span>
+        <span class="likes-count">喜欢{{article.like_count}}</span>
+        <a ng-show="isAdmin()" ui-sref="blogEdit({aid:article._id})">编辑</a>
+      </div> 
+      <!--文章开始 -->
+      <div class="markdown-content" ng-bind-html="article.content"></div>
+      <!-- 文章结束 -->
+  </div>
+    <!-- 喜欢分享开始 -->
+    <div class="article-share clearfix">
+      <!--  Like Button -->
+      <a  href="javascript:;" class="like-btn" ng-class="{'note-liked':isLike}" ng-click="toggleLike(article._id)">
+          <span class="like-content">
+            <i class="fa " ng-class="{'fa-heart-o':!isLike,'fa-heart':isLike}"></i>  喜欢
+          </span>
+          <span class="like-count">{{article.like_count}}</span>        
+      </a>
+    </div>
+    <!-- 喜欢 分享结束 -->
+    <!-- 上一篇 下一篇 -->
+    <div class="prenext">
+      <div class="text-left prev">
+        <a ng-if="prev._id" class="link-title" ui-sref="article({aid:prev._id})"><span>上一篇:</span> {{prev.title}}</a>
+      </div>
+      <div class="text-right next">
+        <a ng-if="next._id" class="link-title" ui-sref="article({aid:next._id})"><span>下一篇:</span> {{next.title}}</a>
+      </div>
+    </div>
+    <!-- 上下篇 结束-->
+
+    <!-- 评论开始 -->
+    <div class="comment-container clearfix">
+      <div class="comment-head clearfix">
+        {{commentList.length || 0}}条评论
+          <a href="javascript:void(null)" ng-click="goToComment('comment_content')" class="goto-comment pull-right"><i class="fa fa-pencil"></i>添加新评论</a>
+      </div>
+      <div id="comment_list">
+        <!-- 评论列表 -->
+        <comment ng-repeat="comment in commentList"></comment>
+        <!-- 评论列表结束 -->
+      </div>
+      <!-- 未登录显示登录按钮 -->
+      <div ng-if="!isLoggedIn()">
+        <p class="comment-signin">
+            <button class="btn btn-info" ng-click="opneSnsModal()">登录后发表评论</button>  
+        </p>
+      </div>
+      <!-- 已登录显示评论框 -->
+      <form ng-if="isLoggedIn()" class="new_comment" name="new_comment">
+        <div class="comment-text">
+          <textarea maxlength="2000" required ng-model="newComment.content" placeholder="写下你的评论…" id="comment_content"></textarea>
+            <div>
+              <input type="submit" ng-click="submitNewComment(article._id)" ng-disabled="new_comment.$invalid" id="comment_submit_btn" value="发 表" class="btn btn-info">
+            </div>
+        </div>
+      </form>
+    </div>
+    <!-- 评论结束 -->
+    <scrolltop></scrolltop>
+</div>
+
+<!-- 页脚 -->
+<div class="center-footer" ng-include="'app/components/footer/footer.html'"></div>

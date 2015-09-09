@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h3 class="modal-title">添加标签分类</h3>
+</div>
+<div class="modal-body">
+    <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <form name="addForm" class="form-horizontal webSettingForm" novalidate>
+            <div class="form-body">
+
+                <div class="form-group">
+                  <label class="control-label col-md-4">分类名
+                          <span class="required">
+                              *
+                          </span>
+                  </label>
+                  <div class="col-md-6">
+                    <input type="text" autocomplete="off" ng-model="cat.name" required class="form-control"/>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-md-4">分类描述
+                    </label>
+                    <div class="col-md-6">
+                        <textarea name="cat_desc" ng-model="cat.desc" rows="6" cols="28" class="form-control"></textarea>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- END FORM-->
+    </div>
+</div>
+<div class="modal-footer">
+
+    <button class="btn btn-primary" ng-disabled="addForm.$invalid" ng-click="ok(addForm)">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

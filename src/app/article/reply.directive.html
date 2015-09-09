@@ -1,0 +1,11 @@
+<div class="reply-item">
+  <p class="reply-content">
+    <a class="reply-user link-light">{{reply.user_info.nickname}}</a>：
+    {{reply.content}}
+  </p>
+  <div class="reply-footer text-right">
+  	<a class="delete" ng-if="isAdmin()" href="javascript:;" ng-click="delReply(reply._id,comment._id,$parent.$parent.$index)">删除</a>
+    <a class="reply" href="javascript:void(null)" ng-click="showReply($parent.$index,reply.user_info.nickname)">回复</a>
+    <span class="reply-time pull-left">{{reply.created | date:'yyyy.MM.dd hh:mm'}}</span>
+  </div>
+</div>

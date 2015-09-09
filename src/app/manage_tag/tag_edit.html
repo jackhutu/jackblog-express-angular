@@ -1,0 +1,72 @@
+<div class="modal-header">
+    <h3 class="modal-title">编辑标签</h3>
+</div>
+<div class="modal-body">
+    <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <form name="addForm" class="form-horizontal webSettingForm" novalidate>
+            <div class="form-body">
+
+                <div class="form-group">
+                  <label class="control-label col-md-4">标签名
+                          <span class="required">
+                              *
+                          </span>
+                  </label>
+                  <div class="col-md-6">
+                    <input type="text" autocomplete="off" ng-model="tag.name" required class="form-control"/>
+                  </div>
+                </div>
+               <div class="form-group">
+                 <label class="col-md-4 control-label">选择分类
+                  <span class="required">
+                      *
+                  </span>
+                 </label>
+                 <div class="col-md-6">
+                   <select class="form-control" ng-model="tag.cid._id" ng-options="cat._id as cat.name for cat in catList">
+                     <option value="">--请选择--</option>
+                   </select>
+                 </div>
+               </div>
+               <div class="form-group">
+                   <label class="control-label col-md-4">排序</label>
+                   <div class="col-md-6">
+                       <input type="number" autocomplete="off" ng-model="tag.sort" required class="form-control"/>
+                   </div>
+               </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4">是否显示
+                    </label>
+                    <div class="col-md-8">
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="tag.is_show" ng-value="true"> 是 </label>
+
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="tag.is_show" ng-value="false"> 否 </label>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4">是否显示在首页
+                    </label>
+                    <div class="col-md-8">
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="tag.is_index" ng-value="true"> 是 </label>
+
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="tag.is_index" ng-value="false"> 否 </label>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <!-- END FORM-->
+    </div>
+</div>
+<div class="modal-footer">
+
+    <button class="btn btn-primary" ng-disabled="addForm.$invalid" ng-click="ok(addForm)">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

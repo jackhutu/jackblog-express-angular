@@ -1,0 +1,24 @@
+/**
+ *  可以覆盖变量.
+ *  bootstrap 变量列表: bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss
+ */
+$icon-font-path: "../../bower_components/font-awesome/fonts/";
+/**
+ *  bootstrap 已经包含normalize
+ *  自动注入 bower.json中的依赖scss.
+ */
+// bower:scss
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+// endbower
+
+/**
+ *  gulp 中任务inject将自动注入其它scss文件
+ */
+// injector
+@import "!base.scss";
+@import "components.scss";
+@import "article/article.scss";
+@import "main/main.scss";
+@import "manage/manage.scss";
+@import "settings/settings.scss";
+// endinjector

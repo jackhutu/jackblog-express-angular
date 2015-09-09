@@ -1,0 +1,86 @@
+<div ng-include="'app/components/navbar/navbar.html'"></div>
+<div class="settings-box">
+
+	<div class="settings-container">
+	  <h2 class="title">设置</h2>
+		<hr />
+	  <div class="profile">
+			<!-- 呢称邮件-->
+	    <div class="control-group">
+	        <form class="settings-form" name="settingForm" ng-submit="mdUser(settingForm)" novalidate>
+	          <div class="form-group">
+	        		<label class="control-label">昵称</label>
+	        		<input placeholder="2-15字符，中英文、数字和下划线" required nickname type="text" class="form-control" ng-minlength="2" ng-maxlength="15" ng-model="user.nickname">
+	          </div>
+						<button type="submit" class="btn btn-block btn-lg btn-primary" ng-disabled="settingForm.$invalid">保 存</button>
+	        </form>
+	    </div>
+			<!-- 呢称邮件结束 -->
+			<!-- 社交账号 -->
+<!-- 		  <div class="control-group">
+		    <h4>
+		      社交帐号 <img class="sns-loader loader-tiny hide" src="http://baijii-common.b0.upaiyun.com/loaders/tiny.gif" alt="Tiny">
+		    </h4>
+		    <p>您可以通过绑定的社交帐号登录。如果您更新了社交网络的昵称或头像, 点击 "刷新" 会将它们更新到博客。出于安全因素, 您最初用来创建账户的社交帐号不能移除。</p>
+
+		    <table class="table table-bordered">
+		      <thead>
+		        <tr>
+		          <th>社交网络</th>
+		          <th>账户名</th>
+		          <th>操作</th>
+		        </tr>
+		      </thead>
+		      <tbody>
+
+              <tr ng-class="{'info':!providerInfo.github.token}">
+    					  <td>
+    					    <i class="fa fa-github"></i>
+    					  </td>
+							  <td colspan="2" ng-if="!providerInfo.github.token">
+							    <a href="" ng-click="connectOauth('github')">
+							    	点击绑定github账户
+									</a>  
+								</td>
+		            <td ng-if="providerInfo.github.token">{{providerInfo.github.name}}</td>
+		            <td ng-if="providerInfo.github.token">
+		              <a href="/users/auth/github">刷新</a>
+		            </td>
+    					</tr>
+		          <tr ng-class="{'info':!providerInfo.weibo.token}">
+		            <td>
+		                <i class="fa fa-weibo"></i>
+		            </td>
+							  <td colspan="2" ng-if="!providerInfo.weibo.token">
+							    <a href="" ng-click="connectOauth('weibo')">
+							       点击绑定新浪微博账户
+									</a>  
+								</td>
+		            <td ng-if="providerInfo.weibo.token">{{providerInfo.weibo.name}}</td>
+		            <td ng-if="providerInfo.weibo.token">
+		              <a href="/users/auth/weibo">刷新</a>
+		            </td>
+							</tr>
+		          <tr ng-class="{'info':!providerInfo.qq.token}">
+		  					<td>
+							    <i class="fa fa-qq"></i>
+							  </td>
+							  <td colspan="2" ng-if="!providerInfo.qq.token">
+							    <a href="" ng-click="connectOauth('qq')">
+							    	点击绑定QQ账户
+									</a>  
+								</td>
+		            <td ng-if="providerInfo.qq.token">{{providerInfo.qq.name}}</td>
+		            <td ng-if="providerInfo.qq.token">
+		              <a href="/users/auth/qq">刷新</a>
+		            </td>
+							</tr>
+
+		      	</tbody>
+		    	</table>
+		  	</div> -->
+				<!-- 社交账号结束 -->
+			</div>
+		<!-- content 结束 -->
+	</div>
+</div>

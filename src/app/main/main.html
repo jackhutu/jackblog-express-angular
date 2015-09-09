@@ -1,0 +1,56 @@
+<div ng-include="'app/components/navbar/navbar.html'"></div>
+<div class="container-fluid main-box">
+  <div class="row">
+
+    <div ng-include="'app/components/sidebar/sidebar.html'"></div>
+
+    <div class="col-sm-7 col-sm-offset-3 main-content">
+
+      <ul class="sort-tags list-unstyled clearfix">
+          <li>
+            <a ng-class="{active:(options.sortName == 'publish_time')}" ng-click="changeSort('publish_time')" href="javascript:;">最新</a>
+          </li>
+          <li>
+            <a ng-class="{active:(options.sortName == 'visit_count')}" ng-click="changeSort('visit_count')" href="javascript:;">热门</a>
+          </li>
+          <li ng-repeat="tag in tagList">
+            <a ng-class="{active:(options.tagId == tag._id)}" ng-click="changeTag(tag._id)" href="javascript:;">{{tag.name}}</a>
+          </li>
+        <li>
+          <img ng-show="isLoading" class="loader-tiny" src="/assets/images/tiny.gif" alt="Tiny">
+        </li>
+      </ul>
+      <ul class="article-list list-unstyled clearfix">
+        <li class="article-item" ng-class="{'have-img':blog.images.length>0}" ng-repeat="blog in blogList">
+            <a ng-show="(blog.images.length > 0)" class="wrap-img" ui-sref="article({aid:blog._id})">
+              <img ng-src="{{blog.images[0].url}}?imageView2/2/w/100/h/100">
+            </a>
+            <div>
+              <p class="list-top">               
+              <span class="time">{{blog.publish_time | customTime}}</span>
+              </p>
+              <h4 class="title"><a class="link-title" ui-sref="article({aid:blog._id})">{{blog.title}}</a></h4>
+              <div class="list-footer">
+                <span>阅读 {{blog.visit_count}}</span>
+                <span> · 评论 {{blog.comment_count}}</span>        
+                <span> · 喜欢 {{blog.like_count}}</span>
+              </div>
+            </div>
+        </li>
+        <li class="no-content" ng-if="(blogCount < 1)">正在大力回车.....</li>
+      </ul>
+
+      <div class="load-more">
+        <button ng-click="loadMore()" ng-disabled="isLoading" class="ladda-button" ng-show="(options.currentPage < numPages)">
+          <span ng-hide="isLoading" class="ladda-label">点击查看更多</span>
+          <span ng-show="isLoading" class="ladda-spinner"><i class="fa fa-spinner fa-spin"></i></span>
+        </button>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+<div ng-include="'app/components/footer/footer.html'"></div>
+

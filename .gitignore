@@ -1,0 +1,18 @@
+# Logs
+*.log
+npm-debug.log*
+
+# Runtime data
+*.pid
+.tmp
+.sass-cache
+
+###############
+.DS_Store
+node_modules
+bower_components
+dist
+test_karma_coverage
+test_mocha_coverage
+process.json
+private

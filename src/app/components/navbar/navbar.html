@@ -1,0 +1,82 @@
+<div class="navbar-box navbar-skin" ng-controller="NavbarCtrl">
+  <div class="navbar-menu">
+      <a class="navbar-item active logo" title="首页" href="/">
+        Hu
+      </a>      
+      <!--    
+      <a class="mobile hidden-xs" tooltip-class="nav-tooltip" tooltip-placement="right" tooltip="移动应用" href="/apps">
+      <i class="fa fa-mobile"></i>
+      </a>  --> 
+  </div>
+  <div class="navbar-expanded">
+      <div ng-if="isAdmin()">
+        <a class="navbar-item" ui-sref-active="active" ui-sref="userList()" tooltip-placement="right" tooltip-class="nav-tooltip" tooltip="用户管理"><i class="fa fa-users"></i></a>
+        <a class="navbar-item" ui-sref-active="active" ui-sref="blogList()" tooltip-placement="right" tooltip-class="nav-tooltip" tooltip="文章管理"><i class="fa fa-book"></i></a>
+        <a class="navbar-item" ui-sref-active="active" ui-sref="tagsManage()" tooltip-placement="right" tooltip-class="nav-tooltip" tooltip="标签管理"><i class="fa fa-tags"></i></a>
+
+      </div>
+      <div>
+        <a class="navbar-item change-mode" href="javascript:;" ng-click="changeMode()" tooltip-placement="right" tooltip-class="nav-tooltip" tooltip="模式切换">
+          <i ng-if="dayMode" class="fa fa-moon-o"></i>
+          <i ng-if="!dayMode" class="fa fa-sun-o"></i>
+        </a>
+      </div>
+
+      <div ng-if="isLoggedIn()">
+
+        <a href="javascript:;" class="navbar-item expanded-logout" ng-click="logout()" tooltip-class="nav-tooltip" tooltip-placement="right" tooltip="登出">
+            <i class="fa fa-sign-out"></i>
+        </a>
+        <a class="navbar-item expanded-avatar" ui-sref="setting()" tooltip-class="nav-tooltip" tooltip-placement="right" tooltip="{{getCurrentUser().nickname}}">          
+          <img ng-src="{{ getCurrentUser().avatar || default_avatar}}" /> 
+        </a>  
+      </div>
+      <div ng-if="!isLoggedIn()">
+        <a class="navbar-item" ui-sref-active="active" ui-sref="signin()" tooltip-class="nav-tooltip" tooltip-placement="right" tooltip="登录">
+          <i class="fa fa-sign-in"></i>
+        </a>    
+      </div>
+
+  </div>
+
+  <!-- 小屏幕 -->
+  <div class="navbar-shrink">
+
+    <div ng-if="isLoggedIn()" class="pull-right" dropdown is-open="status.isopen">
+        <a href="javascript:;" class="shrink-avatar dropdown-toggle" data-toggle="dropdown" dropdown-toggle ng-disabled="disabled">
+          <img ng-src="{{ getCurrentUser().avatar || default_avatar}}" /> 
+        </a>
+        <ul class="dropdown-menu" role="navbarList">
+          <li ng-if="isAdmin()">
+            <a href="/user_list"><i class="fa fa-users"></i> 用户管理</a>
+            <a href="/blog_list"><i class="fa fa-book"></i> 文章管理</a>
+            <a href="/tags_manage"><i class="fa fa-tags"></i> 标签管理</a>
+          </li>
+          <li>
+            <a ui-sref="setting()"><i class="fa fa-cog"></i> 设置</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="javascript:;" class="shrink-logout" ng-click="logout()">
+                <i class="fa fa-sign-out"></i> 登出
+            </a>  
+          </li>
+        </ul>
+
+    </div>
+    
+    <div class="pull-right">
+      <a class="navbar-item change-mode" href="javascript:;" ng-click="changeMode()">
+        <i ng-if="dayMode" class="fa fa-moon-o"></i>
+        <i ng-if="!dayMode" class="fa fa-sun-o"></i>
+      </a>
+    </div>
+
+    <div ng-if="!isLoggedIn()" class="pull-right">
+      <a class="shrink-login" ui-sref="signin()">
+          <i class="fa fa-sign-in"></i> 登录
+      </a>
+    </div>
+  
+  </div>
+</div>
