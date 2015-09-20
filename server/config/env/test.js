@@ -1,13 +1,11 @@
 'use strict';
 
-// Test specific configuration
+// 测试环境配置
 // ===========================
 module.exports = {
-  // MongoDB connection options
   mongo: {
     uri: 'mongodb://localhost/jackblog-test'
   },
-  // Server port
   port:    process.env.PORT || 8080,
   seedDB: true
 };

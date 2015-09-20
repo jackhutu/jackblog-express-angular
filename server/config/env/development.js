@@ -1,9 +1,8 @@
 'use strict';
 
-// Development specific configuration
+// 开发环境配置
 // ==================================
 module.exports = {
-  // MongoDB connection options
   mongo: {
     uri: 'mongodb://localhost/jackblog-dev'
   },
