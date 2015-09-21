@@ -1,8 +1,8 @@
 {
   "name": "jackblog",
   "version": "1.0.0",
-  "description": "A MEAN Blog",
-  "repository": "https://github.com/hutufeia2009/jackblog",
+  "description": "一个完整的开源博客系统",
+  "repository": "https://github.com/jackhutu/jackblog-express-angular",
   "license": "MIT",
   "dependencies": {
     "bluebird": "^2.9.34",
@@ -93,8 +93,10 @@
     "pm2logs": "pm2 logs",
     "pm2flush": "pm2 flush",
     "pm2list": "pm2 list",
-    "test": "mocha",
-    "karma-test": "karma start"
+    "test": "gulp test:mocha",
+    "test-karma": "gulp test:karma",
+    "test-istanbul":"gulp test:istanbul",
+    "test-e2e":"gulp test:e2e"
   },
   "engines": {
     "node": ">=0.10.0"
