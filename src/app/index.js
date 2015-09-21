@@ -89,6 +89,7 @@
 			  	toaster.pop(snsmsg.msgtype,'',snsmsg.msg);
 			  	$cookies.remove('snsmsg');
 			  }
+
 			});
 			// When some error occured.
 			$rootScope.$on('$stateChangeError', function() {
