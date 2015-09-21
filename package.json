@@ -85,7 +85,8 @@
   },
   "bin": {
     "pm2": "./node_modules/pm2/bin/pm2",
-    "karma": "./node_modules/karma/bin/karma"
+    "karma": "./node_modules/karma/bin/karma",
+    "istanbul": "./node_modules/istanbul/lib/cli.js"
   },
   "scripts": {
     "restart": "pm2 restart process.json",
@@ -95,7 +96,6 @@
     "pm2list": "pm2 list",
     "test": "gulp test:mocha",
     "test-karma": "gulp test:karma",
-    "test-istanbul":"gulp test:istanbul",
     "test-e2e":"gulp test:e2e"
   },
   "engines": {
