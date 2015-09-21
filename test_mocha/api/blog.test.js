@@ -46,8 +46,8 @@ describe('test/api/blog.test.js',function () {
 			})
 			.end(function (err,res) {
 				//console.log(err.response.body.error_msg);
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			});
 		});
@@ -61,8 +61,8 @@ describe('test/api/blog.test.js',function () {
 			})
 			.end(function (err,res) {
 				//console.log(err.response.body.error_msg);
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			});
 		});
@@ -94,8 +94,8 @@ describe('test/api/blog.test.js',function () {
 				status:1
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			});
 		});
@@ -108,8 +108,8 @@ describe('test/api/blog.test.js',function () {
 				status:1
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			});
 		});
@@ -174,8 +174,8 @@ describe('test/api/blog.test.js',function () {
 			request.post('/api/blog/uploadImage')
 			.set('Authorization','Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			});
 		});
@@ -186,8 +186,8 @@ describe('test/api/blog.test.js',function () {
 			request.post('/api/blog/fetchImage')
 			.set('Authorization','Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			});
 		});
@@ -323,8 +323,6 @@ describe('test/api/blog.test.js',function () {
 				should.not.exists(err);
 				res.body.success.should.be.true();
 				res.body.count.should.be.equal(2);
-				// res.body.count.should.be.above(0);
-				// res.body.count.should.be.Number();
 				res.body.isLike.should.be.true();
 				done();
 			})
@@ -336,8 +334,6 @@ describe('test/api/blog.test.js',function () {
 				should.not.exists(err);
 				res.body.success.should.be.true();
 				res.body.count.should.be.equal(1);
-				// res.body.count.should.be.above(0);
-				// res.body.count.should.be.Number();
 				res.body.isLike.should.be.false();
 				done();
 			})
@@ -349,8 +345,8 @@ describe('test/api/blog.test.js',function () {
 			request.del('/api/blog/ddddddd')
 			.set('Authorization', 'Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(500);
+				should.not.exists(err);
+				res.status.should.be.equal(500);
 				done();
 			});
 

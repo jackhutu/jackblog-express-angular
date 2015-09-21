@@ -95,7 +95,7 @@ exports.updateBlog = function (req,res) {
 		req.body.publish_time = new Date();
 	}
 
-	Blog.findByIdAndUpdateAsync(id,req.body,{new:true}).spread(function(article,value){
+	Blog.findByIdAndUpdateAsync(id,req.body,{new:true}).then(function(article){
 		return res.status(200).json({success:true,article_id:article._id});
 	}).catch(function(err){
 		return res.status(500).send();	
@@ -296,8 +296,8 @@ exports.toggleLike = function (req,res) {
   	liked = true;
   }
  
-  User.findByIdAndUpdateAsync(userId,conditionOne).spread(function (user,value) {
-  	return Blog.findByIdAndUpdateAsync(aid,conditionTwo,{new:true}).spread(function (blog,value) {
+  User.findByIdAndUpdateAsync(userId,conditionOne).then(function (user) {
+  	return Blog.findByIdAndUpdateAsync(aid,conditionTwo,{new:true}).then(function (blog) {
   		return res.status(200).json({success:true,'count':blog.like_count,'isLike':liked});
   	});
   }).catch(function (err) {

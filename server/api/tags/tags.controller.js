@@ -39,7 +39,7 @@ exports.updateTagCat = function (req,res) {
 	if(req.body._id){
 	  delete req.body._id;
 	}
-	TagCategory.findByIdAndUpdateAsync(id,req.body,{new:true}).spread(function(result,value){
+	TagCategory.findByIdAndUpdateAsync(id,req.body,{new:true}).then(function(result){
 		return res.status(200).json({success:true,cat_id:result._id});
 	}).catch(function(err){
 		return res.status(500).send();	
@@ -122,7 +122,7 @@ exports.updateTag = function (req,res) {
 	if(req.body._id){
 	  delete req.body._id;
 	}
-	Tag.findByIdAndUpdateAsync(id,req.body,{new:true}).spread(function(result){
+	Tag.findByIdAndUpdateAsync(id,req.body,{new:true}).then(function(result){
 		return res.status(200).json({success:true,tag_id:result._id});
 	}).catch(function(err){
 		return res.status(500).send();	

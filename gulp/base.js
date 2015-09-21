@@ -6,7 +6,7 @@ var config = require('./config');
 var _ = require('lodash');
 var wiredep = require('wiredep').stream;
 var $ = require('gulp-load-plugins')({
-  pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
+  pattern: ['gulp-*', 'event-stream', 'main-bower-files', 'uglify-save-license', 'del']
 });
 var browserSync = require('browser-sync');
 
@@ -106,7 +106,8 @@ gulp.task('styles:compass',['inject_sass'],function () {
 });
 /*****************CSS(COMPASS编译) end*********************************************/
 
-/*****************inject(css,js注入html) start*********************************************/
+/*****************inject(css,js注入html) start***************************/
+//sass编译和compass编译二选一
 gulp.task('inject', ['scripts', 'styles:compass'], function () {
   var injectStyles = gulp.src([
     path.join(config.paths.tmp, '/serve/app/**/*.css'),
@@ -118,20 +119,22 @@ gulp.task('inject', ['scripts', 'styles:compass'], function () {
     path.join(config.paths.src, '/app/**/*.js'),
     path.join('!' + config.paths.src, '/app/**/*.spec.js'),
     path.join('!' + config.paths.src, '/app/**/*.mock.js')
-  ])
-  .pipe($.angularFilesort());
+  ]).pipe($.angularFilesort());
 
   var injectOptions = {
     ignorePath: [config.paths.src, path.join(config.paths.tmp, '/serve')],
     addRootSlash: false
   };
 
-  return gulp.src(path.join(config.paths.src, '/*.html'))
+	return gulp.src(path.join(config.paths.src, '/*.html'))
 		.pipe($.plumber(config.errorHandler()))
-    .pipe($.inject(injectStyles, injectOptions))
-    .pipe($.inject(injectScripts, injectOptions))
-    .pipe(wiredep(_.extend({}, config.wiredep)))
-    .pipe(gulp.dest(path.join(config.paths.tmp, '/serve')));
+		.pipe($.inject($.eventStream.merge(
+		  injectStyles,
+		  injectScripts
+		),injectOptions))
+		.pipe(wiredep(_.extend({}, config.wiredep)))
+	  .pipe(gulp.dest(path.join(config.paths.tmp, '/serve')));
+
 });
 /*****************inject(css,js注入html) end*********************************************/
 

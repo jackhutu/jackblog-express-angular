@@ -45,8 +45,8 @@ describe('test/api/user.test.js',function () {
 				password:'test'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -59,8 +59,8 @@ describe('test/api/user.test.js',function () {
 				password:'test'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -74,8 +74,8 @@ describe('test/api/user.test.js',function () {
 				password:'test'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -89,8 +89,8 @@ describe('test/api/user.test.js',function () {
 				password:'test'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -121,8 +121,8 @@ describe('test/api/user.test.js',function () {
 				password:'test'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(500);
+				should.not.exists(err);
+				res.status.should.be.equal(500);
 				done();
 			})
 		});
@@ -140,8 +140,8 @@ describe('test/api/user.test.js',function () {
 				status:1
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -153,8 +153,8 @@ describe('test/api/user.test.js',function () {
 				status:1
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -167,8 +167,8 @@ describe('test/api/user.test.js',function () {
 				status:1
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -181,8 +181,8 @@ describe('test/api/user.test.js',function () {
 				status:1
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -227,8 +227,8 @@ describe('test/api/user.test.js',function () {
 				status:1
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(500);
+				should.not.exists(err);
+				res.status.should.be.equal(500);
 				done();
 			})
 		});
@@ -242,8 +242,8 @@ describe('test/api/user.test.js',function () {
 			request.put('/api/users/mdUser')
 			.set('Authorization','Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -255,8 +255,8 @@ describe('test/api/user.test.js',function () {
 				nickname:'jack^^&&'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -281,8 +281,8 @@ describe('test/api/user.test.js',function () {
 				nickname: mockUpdateNickName
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(500);
+				should.not.exists(err);
+				res.status.should.be.equal(500);
 				done();
 			})
 		});
@@ -356,8 +356,8 @@ describe('test/api/user.test.js',function () {
 			request.del('/api/users/' + mockAdminId)
 			.set('Authorization','Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(403);
+				should.not.exists(err);
+				res.status.should.be.equal(403);
 				done();
 			})
 		});
@@ -366,8 +366,8 @@ describe('test/api/user.test.js',function () {
 			request.del('/api/users/dddddd')
 			.set('Authorization','Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(500);
+				should.not.exists(err);
+				res.status.should.be.equal(500);
 				done();
 			})
 		});

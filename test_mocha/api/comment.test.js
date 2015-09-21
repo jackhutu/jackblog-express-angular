@@ -58,8 +58,8 @@ describe('test/api/comment.test.js',function () {
 				content:'最亲爱的评论',
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			});
 
@@ -73,8 +73,8 @@ describe('test/api/comment.test.js',function () {
 				content:'',
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			});
 
@@ -107,8 +107,8 @@ describe('test/api/comment.test.js',function () {
 				content:''
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			});
 
@@ -165,8 +165,8 @@ describe('test/api/comment.test.js',function () {
 				rid:mockReplyId
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(500);
+				should.not.exists(err);
+				res.status.should.be.equal(500);
 				done();
 			});
 
@@ -192,8 +192,8 @@ describe('test/api/comment.test.js',function () {
 			request.del('/api/comment/dddddddddd')
 			.set('Authorization','Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(500);
+				should.not.exists(err);
+				res.status.should.be.equal(500);
 				done();
 			});
 

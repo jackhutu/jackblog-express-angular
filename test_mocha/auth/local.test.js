@@ -52,8 +52,8 @@ describe('test/auth/local.test.js',function () {
 				password:'test888'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(403);
+				should.not.exists(err);
+				res.status.should.be.equal(403);
 				done();
 			});
 
@@ -65,8 +65,8 @@ describe('test/auth/local.test.js',function () {
 				password:'test'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(403);
+				should.not.exists(err);
+				res.status.should.be.equal(403);
 				done();
 			});
 		});
@@ -77,8 +77,8 @@ describe('test/auth/local.test.js',function () {
 				password:'test'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(403);
+				should.not.exists(err);
+				res.status.should.be.equal(403);
 				done();
 			});
 
@@ -91,8 +91,8 @@ describe('test/auth/local.test.js',function () {
 				password:'test'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(403);
+				should.not.exists(err);
+				res.status.should.be.equal(403);
 				done();
 			});
 

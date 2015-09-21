@@ -62,7 +62,7 @@ gulp.task('test:istanbul',['set-env'],function () {
 gulp.task('test:mocha',['set-env'],function () {
 	gulp.src(path.join(config.paths.mocha,'/**/*.test.js'),{read: false})
 			.pipe(mocha({
-				reporter: 'nyan',
+				reporter: 'list',		//list,nyan,spec(default),progress
 				require: ['should'],
 				timeout: 5000
 			}))

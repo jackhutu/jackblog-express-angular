@@ -45,8 +45,8 @@ describe('test/api/tags.test.js',function () {
 				desc:'测试标签分类名'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.equal(422);
+				should.not.exists(err);
+				res.status.should.equal(422);
 				done();
 			})
 		});
@@ -74,8 +74,8 @@ describe('test/api/tags.test.js',function () {
 				desc:'测试标签分类名'
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(403);
+				should.not.exists(err);
+				res.status.should.be.equal(403);
 				done();
 			})
 		});
@@ -91,8 +91,8 @@ describe('test/api/tags.test.js',function () {
 				is_show:true
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -104,8 +104,8 @@ describe('test/api/tags.test.js',function () {
 				is_show:true
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(422);
+				should.not.exists(err);
+				res.status.should.be.equal(422);
 				done();
 			})
 		});
@@ -134,8 +134,8 @@ describe('test/api/tags.test.js',function () {
 				is_show:true
 			})
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(403);
+				should.not.exists(err);
+				res.status.should.be.equal(403);
 				done();
 			})
 		});
@@ -230,8 +230,8 @@ describe('test/api/tags.test.js',function () {
 			request.del('/api/tags/' + mockTagCatId)
 			.set('Authorization','Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.Number(403);
+				should.not.exists(err);
+				res.status.should.be.Number(403);
 				done();
 			});
 		});
@@ -242,8 +242,8 @@ describe('test/api/tags.test.js',function () {
 			request.del('/api/tags/dddddd/deleteTag')
 			.set('Authorization','Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(500);
+				should.not.exists(err);
+				res.status.should.be.equal(500);
 				done();
 			});
 
@@ -267,8 +267,8 @@ describe('test/api/tags.test.js',function () {
 			request.del('/api/tags/dddddd')
 			.set('Authorization','Bearer ' + token)
 			.end(function (err,res) {
-				should.exists(err);
-				err.status.should.be.equal(500);
+				should.not.exists(err);
+				res.status.should.be.equal(500);
 				done();
 			});
 		});

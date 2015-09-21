@@ -64,7 +64,7 @@ exports.addNewReply = function (req,res) {
   	nickname:req.user.nickname
   }
   reply.created = new Date();
-	Comment.findByIdAndUpdateAsync(cid,{"$push":{"replys":reply}},{new:true}).spread(function (result,value) {
+	Comment.findByIdAndUpdateAsync(cid,{"$push":{"replys":reply}},{new:true}).then(function (result) {
 		return res.status(200).json({success:true,data:result.replys});
 	}).catch(function (err) {
 		return res.status(500).send();
@@ -88,7 +88,7 @@ exports.delReply = function (req,res) {
 	if(!rid){
 		return res.status(422).send({error_msg:"缺少回复ID."});
 	}
-	Comment.findByIdAndUpdateAsync(cid,{$pull:{replys:{ _id:mongoose.Types.ObjectId(rid) }}},{new:true}).spread(function (result,value) {
+	Comment.findByIdAndUpdateAsync(cid,{$pull:{replys:{ _id:mongoose.Types.ObjectId(rid) }}},{new:true}).then(function (result) {
 		return res.status(200).json({success:true,data:result});
 	}).catch(function (err) {
 		return res.status(500).send();
