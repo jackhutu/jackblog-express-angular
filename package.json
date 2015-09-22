@@ -83,7 +83,7 @@
     "main-bower-files": "^2.9.0",
     "mocha": "^2.3.3",
     "phantomjs": "^1.9.18",
-    "protractor": "^2.2.0",
+    "protractor": "^2.1.0",
     "should": "^7.1.0",
     "supertest": "^1.1.0",
     "uglify-save-license": "^0.4.1",
@@ -96,7 +96,7 @@
     "istanbul": "./node_modules/istanbul/lib/cli.js"
   },
   "scripts": {
-    "start":"gulp serve",
+    "start": "gulp serve",
     "pm2-start": "pm2 start process.json",
     "pm2-restart": "pm2 restart process.json",
     "pm2-stop": "pm2 stop process.json",
