@@ -9,7 +9,6 @@ npm-debug.log*
 
 ###############
 .DS_Store
-.gitattributes
 node_modules
 bower_components
 dist
