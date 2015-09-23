@@ -105,7 +105,8 @@
     "pm2-list": "pm2 list",
     "test": "gulp test:mocha",
     "test-karma": "gulp test:karma",
-    "test-e2e": "gulp test:e2e"
+    "test-e2e": "gulp test:e2e",
+    "postinstall": "bower install --config.interactive=false"
   },
   "engines": {
     "node": ">=0.10.0"

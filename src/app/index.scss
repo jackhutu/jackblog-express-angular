@@ -2,7 +2,8 @@
  *  可以覆盖变量.
  *  bootstrap 变量列表: bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss
  */
-$icon-font-path: "../../bower_components/font-awesome/fonts/";
+//$bootstrap-sass-asset-helper: false;
+$icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 /**
  *  bootstrap 已经包含normalize
  *  自动注入 bower.json中的依赖scss.
@@ -18,7 +19,7 @@ $icon-font-path: "../../bower_components/font-awesome/fonts/";
 @import "!base.scss";
 @import "components.scss";
 @import "article/article.scss";
-@import "manage/manage.scss";
 @import "main/main.scss";
+@import "manage/manage.scss";
 @import "settings/settings.scss";
 // endinjector
