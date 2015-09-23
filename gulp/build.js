@@ -124,7 +124,7 @@ gulp.task('html',['inject','partials'],function () {
 		.pipe(jsFilter.restore)
 		//css处理
 		.pipe(cssFilter)
-		.pipe($.replace('../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/', '../fonts/'))
+		.pipe($.replace('../../bower_components/bootstrap-sass/assets/fonts/bootstrap/', '../fonts/'))
 		.pipe($.csso())
 		.pipe(cssFilter.restore)
 		//md5后缀
