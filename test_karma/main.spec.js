@@ -151,10 +151,7 @@ describe('jackblog',function () {
 		});
 
 		it('should changeTag return new blog list', function() {
-			//$httpBackend.expectGET('/api/blog/getFrontBlogCount?currentPage=1&itemsPerPage=10&sortName=visit_count&tagId=')
-			//						.respond({success:true,count:2});
-			//$httpBackend.expectGET('/api/blog/getFrontBlogList?currentPage=1&itemsPerPage=10&sortName=visit_count&tagId=')
-			//						.respond({data:[{title:'文章4'},{title:'文章5',}]});
+
 			$httpBackend.expectGET('/api/blog/getFrontBlogCount?currentPage=1&itemsPerPage=10&sortName=&tagId=55b0c23aa463e6742c3030ea')
 									.respond({success:true,count:2});
 			$httpBackend.expectGET('/api/blog/getFrontBlogList?currentPage=1&itemsPerPage=10&sortName=&tagId=55b0c23aa463e6742c3030ea')
