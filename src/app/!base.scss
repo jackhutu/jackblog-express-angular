@@ -175,8 +175,16 @@ $nightMdQuoteBgColor: #555;
           color: $mdLinkHColor;
         }
       }
+      ul{
+        list-style-type: disc;
+      }
+      ol{
+        list-style-type: decimal;
+      }
     }
-
+    .md-preview{
+      @extend .markdown-content;
+    }
 }
 
 @mixin navbarStyle($bgColor,$navShadowColor,$dropdownBgColor,$avatarAfterColor,$avatarHoverColor){
