@@ -89,12 +89,6 @@
     "uglify-save-license": "^0.4.1",
     "wiredep": "^2.2.2"
   },
-  "bin": {
-    "pm2": "./node_modules/pm2/bin/pm2",
-    "karma": "./node_modules/karma/bin/karma",
-    "mocha": "./node_modules/mocha/bin/mocha",
-    "istanbul": "./node_modules/istanbul/lib/cli.js"
-  },
   "scripts": {
     "start": "gulp serve",
     "pm2-start": "pm2 start process.json",
