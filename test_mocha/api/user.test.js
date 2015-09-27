@@ -44,11 +44,7 @@ describe('test/api/user.test.js',function () {
 				email:'test@test.com' + new Date().getTime(),
 				password:'test'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 
 		it('should when not email return error', function(done) {
@@ -58,11 +54,7 @@ describe('test/api/user.test.js',function () {
 				nickname: "呢称" + new Date().getTime(),
 				password:'test'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 
 		it('should when nickname error return error', function(done) {
@@ -73,11 +65,7 @@ describe('test/api/user.test.js',function () {
 				email:'test@test.com' + new Date().getTime(),
 				password:'test'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 
 		it('should when email error return error', function(done) {
@@ -88,11 +76,7 @@ describe('test/api/user.test.js',function () {
 				email:'test.com' + new Date().getTime(),
 				password:'test'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 		var nickname = '呢称' + new Date().getTime();
 		it('should return new user', function(done) {
@@ -103,8 +87,10 @@ describe('test/api/user.test.js',function () {
 				email:'test@test.com' + new Date().getTime(),
 				password:'test'
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				mockUserId = res.body.user_id;
 				res.body.user_id.should.be.String();
 				res.body.success.should.be.true();
@@ -120,11 +106,7 @@ describe('test/api/user.test.js',function () {
 				email:'test@test.com' + new Date().getTime(),
 				password:'test'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(500);
-				done();
-			})
+			.expect(500,done);
 		});
 
 	});
@@ -139,11 +121,7 @@ describe('test/api/user.test.js',function () {
 				email:'test@test.com' + new Date().getTime(),
 				status:1
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 		it('should when not email return error', function(done) {
 			request.put('/api/users/' + mockUserId + '/updateUser')
@@ -152,11 +130,7 @@ describe('test/api/user.test.js',function () {
 				nickname:mockUpdateNickName,
 				status:1
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 		it('should when nickname error return error', function(done) {
 			request.put('/api/users/' + mockUserId + '/updateUser')
@@ -166,11 +140,7 @@ describe('test/api/user.test.js',function () {
 				email:'test@test.com' + new Date().getTime(),
 				status:1
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 		it('should when email error return error', function(done) {
 			request.put('/api/users/' + mockUserId + '/updateUser')
@@ -180,11 +150,7 @@ describe('test/api/user.test.js',function () {
 				email:'test.com',
 				status:1
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 		it('should return update user', function(done) {
 			request.put('/api/users/' + mockUserId + '/updateUser')
@@ -194,8 +160,10 @@ describe('test/api/user.test.js',function () {
 				email:'test@test.com' + new Date().getTime(),
 				status:1
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.user_id.should.be.String();
 				res.body.success.should.be.true();
 				done();
@@ -210,8 +178,10 @@ describe('test/api/user.test.js',function () {
 				status:1,
 				newPassword:'testpwd'
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.user_id.should.be.String();
 				res.body.success.should.be.true();
 				done();
@@ -226,11 +196,7 @@ describe('test/api/user.test.js',function () {
 				email:'test@test.com' + new Date().getTime(),
 				status:1
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(500);
-				done();
-			})
+			.expect(500,done);
 		});
 
 
@@ -241,11 +207,7 @@ describe('test/api/user.test.js',function () {
 		it('should when not nickname return error', function(done) {
 			request.put('/api/users/mdUser')
 			.set('Authorization','Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 
 		it('should when nickname error return error', function(done) {
@@ -254,11 +216,7 @@ describe('test/api/user.test.js',function () {
 			.send({
 				nickname:'jack^^&&'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 		it('should return my user', function(done) {
 			request.put('/api/users/mdUser')
@@ -266,8 +224,10 @@ describe('test/api/user.test.js',function () {
 			.send({
 				nickname:'呢称' + new Date().getTime()
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.nickname.should.be.String();
 				res.body.success.should.be.true();
 				done();
@@ -280,11 +240,7 @@ describe('test/api/user.test.js',function () {
 			.send({
 				nickname: mockUpdateNickName
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(500);
-				done();
-			})
+			.expect(500,done);
 		});
 
 	});
@@ -293,8 +249,10 @@ describe('test/api/user.test.js',function () {
 			it('should return users list',function (done) {
 				request.get('/api/users/getUserList')
 				.set('Authorization','Bearer ' + token)
+				.expect(200)
+				.expect('Content-Type', /json/)
 				.end(function (err,res) {
-					should.not.exists(err);
+					if(err) return done(err);
 					res.body.data.length.should.be.above(0);
 					res.body.count.should.be.above(0);
 					done();
@@ -308,8 +266,10 @@ describe('test/api/user.test.js',function () {
 					sortName:'',
 					sortOrder:'false'
 				})
+				.expect(200)
+				.expect('Content-Type', /json/)
 				.end(function (err,res) {
-					should.not.exists(err);
+					if(err) return done(err);
 					res.body.data.length.should.be.above(0);
 					res.body.count.should.be.above(0);
 					done();
@@ -321,8 +281,10 @@ describe('test/api/user.test.js',function () {
 		it('should return User Provider', function(done) {
 			request.get('/api/users/getUserProvider')
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.should.be.Object();
 				done();
 			})
@@ -332,10 +294,7 @@ describe('test/api/user.test.js',function () {
 	describe('get /api/users/getCaptcha', function() {
 		it('should return captcha image', function(done) {
 			request.get('/api/users/getCaptcha')
-			.end(function (err,res) {
-				should.not.exists(err);
-				done();
-			})
+			.expect(200,done);
 		});
 	});
 
@@ -343,8 +302,10 @@ describe('test/api/user.test.js',function () {
 		it('should return me info', function(done) {
 			request.get('/api/users/me')
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.nickname.should.be.String();
 				done();
 			})
@@ -355,28 +316,22 @@ describe('test/api/user.test.js',function () {
 		it('should if userid === req.user._id return error', function(done) {
 			request.del('/api/users/' + mockAdminId)
 			.set('Authorization','Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(403);
-				done();
-			})
+			.expect(403,done);
 		});
 
 		it('should if userId error return error', function(done) {
 			request.del('/api/users/dddddd')
 			.set('Authorization','Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(500);
-				done();
-			})
+			.expect(500,done);
 		});
 
 		it('should return me info', function(done) {
 			request.del('/api/users/' + mockUserId)
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.success.should.be.true();
 				done();
 			})

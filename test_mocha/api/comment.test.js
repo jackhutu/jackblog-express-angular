@@ -57,11 +57,7 @@ describe('test/api/comment.test.js',function () {
 			.send({
 				content:'最亲爱的评论',
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			});
+			.expect(422,done);
 
 		});
 
@@ -72,11 +68,7 @@ describe('test/api/comment.test.js',function () {
 				aid:mockArticleId,
 				content:'',
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			});
+			.expect(422,done);
 
 		});
 
@@ -87,8 +79,10 @@ describe('test/api/comment.test.js',function () {
 				aid:mockArticleId,
 				content:'最亲爱的评论',
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				mockCommentId = res.body.data._id;
 				res.body.success.should.be.true();
 				res.body.data.content.should.equal('最亲爱的评论');
@@ -106,11 +100,7 @@ describe('test/api/comment.test.js',function () {
 			.send({
 				content:''
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			});
+			.expect(422,done);
 
 		});
 
@@ -120,8 +110,10 @@ describe('test/api/comment.test.js',function () {
 			.send({
 				content:'最好的回复'
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				mockReplyId = res.body.data[0]._id;
 				res.body.success.should.be.true();
 				res.body.data.should.be.Array();
@@ -134,8 +126,10 @@ describe('test/api/comment.test.js',function () {
 	describe('get /api/comment/:id/getFrontCommentList',function () {
 		it('should return comment list',function (done) {
 			request.get('/api/comment/' + mockArticleId + '/getFrontCommentList')
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.length.should.be.above(0);
 				done();
 			});
@@ -150,11 +144,7 @@ describe('test/api/comment.test.js',function () {
 			.send({
 				//rid:mockComment.reply[0]._id
 			})
-			.expect(422)
-			.end(function (err,res) {
-				should.not.exists(err);
-				done();
-			});
+			.expect(422,done)
 
 		});
 
@@ -164,11 +154,7 @@ describe('test/api/comment.test.js',function () {
 			.send({
 				rid:mockReplyId
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(500);
-				done();
-			});
+			.expect(500,done)
 
 		});
 
@@ -178,8 +164,10 @@ describe('test/api/comment.test.js',function () {
 			.send({
 				rid:mockReplyId
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.success.should.be.true();
 				done();
 			});
@@ -191,19 +179,16 @@ describe('test/api/comment.test.js',function () {
 		it('should when id error return error',function (done) {
 			request.del('/api/comment/dddddddddd')
 			.set('Authorization','Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(500);
-				done();
-			});
-
+			.expect(500,done)
 		});
 
 		it('should return success',function (done) {
 			request.del('/api/comment/' + mockCommentId)
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.success.should.be.true();
 				done();
 			});

@@ -146,7 +146,7 @@ exports.fetchImage = function (req,res) {
 		fileName = urlLink.pathname;
 	};
 	fileName =  new Date().getTime() + fileName;
-	qiniuHelper.fetchd(req.body.url,'blog/article/' + fileName).then(function (result) {
+	qiniuHelper.fetch(req.body.url,'blog/article/' + fileName).then(function (result) {
 		return res.status(200).json({success:true,img_url:result.url});
 	}).catch(function (err) {
 		return res.status(500).send();	
@@ -270,6 +270,7 @@ exports.getIndexImage = function (req,res) {
 		}).catch(function (err) {
 			config.indexImages = [];
 		});
+		return;
 	}else{
 		var images = config.indexImages;
 		var index = _.random(images.length - 1);

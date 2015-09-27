@@ -57,8 +57,10 @@ describe('test/api/logs.test.js',function () {
 		it('should return logs list',function (done) {
 			request.get('/api/logs/getLogsList')
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.length.should.be.above(0);
 				res.body.count.should.be.above(0);
 				done();
@@ -74,8 +76,10 @@ describe('test/api/logs.test.js',function () {
 				sortName:''
 			})
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.length.should.be.above(0);
 				res.body.count.should.be.above(0);
 				done();

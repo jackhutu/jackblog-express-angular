@@ -37,15 +37,16 @@ module.exports = function(app) {
     cookie: { maxAge: 60000 }
   }));
   app.use(passport.initialize());
-  //app.use(passport.session()); // persistent login sessions
   if ('development' === env) {
-    //app.use(express.static(path.join(config.root, '.tmp')));
-    //app.use(express.static(path.join(config.root, 'src')));
     app.use(favicon(path.join(config.root, 'src', 'favicon.ico')));
     app.use(errorHandler());
-  }else{
-    app.use(express.static(path.join(config.root, 'dist')));
+  }else if ('test' === env) {
     app.set('appPath', 'dist');
+    app.use(express.static(path.join(config.root, 'dist')));
+    app.use(errorHandler());
+  }else{
+    app.set('appPath', 'dist');
+    app.use(express.static(path.join(config.root, 'dist')));
     app.use(favicon(path.join(config.root, 'dist', 'favicon.ico')));
   }
 };

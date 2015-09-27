@@ -25,10 +25,9 @@ gulp.task('test:istanbul',['set-env'],function () {
 	gulp.src([
 			path.join(config.paths.server,'/**/*.js'),
 			path.join('!' + config.paths.server,'/config/**/*.js'),
-			path.join('!' + config.paths.server,'/auth/!(local)/*.js'),
+			path.join('!' + config.paths.server,'/auth/**/*.js'),
 			path.join('!' + config.paths.server,'/{app,routes}.js'),
-			path.join('!' + config.paths.server,'/model/**/*.js'),
-			path.join('!' + config.paths.server,'/components/qiniu/*.js')
+			path.join('!' + config.paths.server,'/model/**/*.js')
 		])
 			.pipe(istanbul()) // Covering files
 			.pipe(istanbul.hookRequire()) // Force `require` to return covered files

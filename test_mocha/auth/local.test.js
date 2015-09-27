@@ -51,11 +51,7 @@ describe('test/auth/local.test.js',function () {
 				email:mockUsers[0],
 				password:'test888'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(403);
-				done();
-			});
+			.expect(403,done);
 
 		});
 		it('should when email error return err',function (done) {
@@ -64,11 +60,7 @@ describe('test/auth/local.test.js',function () {
 				email:'ttttt@ttttt.com',
 				password:'test'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(403);
-				done();
-			});
+			.expect(403,done);
 		});
 		it('should when status 0 return err',function (done) {
 			request.post('/auth/local')
@@ -76,11 +68,7 @@ describe('test/auth/local.test.js',function () {
 				email:mockUsers[1],
 				password:'test'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(403);
-				done();
-			});
+			.expect(403,done);
 
 		});
 
@@ -90,11 +78,7 @@ describe('test/auth/local.test.js',function () {
 				email:mockUsers[2],
 				password:'test'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(403);
-				done();
-			});
+			.expect(403,done);
 
 		});
 
@@ -104,8 +88,10 @@ describe('test/auth/local.test.js',function () {
 				email:mockUsers[0],
 				password:'test'
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.token.should.be.String();
 				done();
 			});

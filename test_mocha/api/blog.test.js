@@ -4,7 +4,9 @@ var should = require("should");
 var mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	Article = mongoose.model('Article');
-
+var Promise = require('bluebird');
+var qiniuHelper = require('../../server/components/qiniu');
+var sinon = require('sinon');
 
 describe('test/api/blog.test.js',function () {
 	//测试需要一篇文章
@@ -44,12 +46,7 @@ describe('test/api/blog.test.js',function () {
 				content:'测试文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
 				status:1
 			})
-			.end(function (err,res) {
-				//console.log(err.response.body.error_msg);
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			});
+			.expect(422,done);
 		});
 
 		it('should not content return error',function (done) {
@@ -59,12 +56,7 @@ describe('test/api/blog.test.js',function () {
 				title:'测试文章标题' + new Date().getTime(),
 				status:1
 			})
-			.end(function (err,res) {
-				//console.log(err.response.body.error_msg);
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			});
+			.expect(422,done);
 		});
 		it('should create a new article',function (done) {
 			request.post('/api/blog/addBlog')
@@ -75,8 +67,10 @@ describe('test/api/blog.test.js',function () {
 				status:1,
 				tags:['55e127401c2dbb2c4be93f6b']
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				mockArticleId = res.body.article_id;
 				res.body.success.should.be.true();
 				res.body.article_id.should.be.String;
@@ -93,11 +87,8 @@ describe('test/api/blog.test.js',function () {
 				content:'新的文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
 				status:1
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			});
+			.expect(422,done);
+
 		});
 
 		it('should not content return error',function (done) {
@@ -107,11 +98,8 @@ describe('test/api/blog.test.js',function () {
 				title:'新的标题' + new Date().getTime(),
 				status:1
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			});
+			.expect(422,done);
+
 		});
 
 		it('should return update a article',function (done) {
@@ -124,8 +112,10 @@ describe('test/api/blog.test.js',function () {
 				status:1,
 				isRePub:true
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.success.should.be.true();
 				res.body.article_id.should.be.String;
 				done();
@@ -138,8 +128,10 @@ describe('test/api/blog.test.js',function () {
 		it('should return blog list',function (done) {
 			request.get('/api/blog/getBlogList')
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.length.should.above(0);
 				res.body.count.should.be.Number;
 				res.body.count.should.be.above(0);
@@ -156,8 +148,10 @@ describe('test/api/blog.test.js',function () {
 				sortName:'',
 				itemsPerPage:2
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.length.should.above(0);
 				res.body.count.should.be.Number;
 				res.body.count.should.be.above(0);
@@ -170,35 +164,76 @@ describe('test/api/blog.test.js',function () {
 
 
 	describe('upload image',function () {
+
 		it('should not file parmas return error',function (done) {
 			request.post('/api/blog/uploadImage')
 			.set('Authorization','Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			});
+			.expect(422,done)
 		});
+
+		it('should resturn success',function (done) {
+			var stubQiniu = sinon.stub(qiniuHelper,'upload');
+			stubQiniu.returns(Promise.resolve({
+				url: "http://upload.jackhu.top/blog/article/test.png"
+			}));
+			request.post('/api/blog/uploadImage')
+			.set('Authorization','Bearer ' + token)
+			.attach('file', __dirname + '/upload.test.png')
+			.expect('Content-Type', /json/)
+			.expect(200)
+			.end(function (err,res) {
+				if(err) return done(err);
+				res.body.success.should.be.true();
+				res.body.img_url.should.be.equal("http://upload.jackhu.top/blog/article/test.png");
+				stubQiniu.calledOnce.should.be.true();
+				stubQiniu.restore();
+				done();
+			})
+		});
+
 	});
 
 	describe('fetch image',function () {
+
+		it('should resturn success',function (done) {
+			var stubQiniu = sinon.stub(qiniuHelper,'fetch');
+			stubQiniu.returns(Promise.resolve({
+				url: "http://upload.jackhu.top/blog/article/test.png"
+			}));
+			request.post('/api/blog/fetchImage')
+			.set('Authorization','Bearer ' + token)
+			.send({
+				url:'http://www.test.com/test.png'
+			})
+			.expect(200)
+			.expect('Content-Type', /json/)
+			.end(function (err,res) {
+				if(err) return done(err);
+				res.body.success.should.be.true();
+				res.body.img_url.should.be.equal("http://upload.jackhu.top/blog/article/test.png");
+				stubQiniu.calledOnce.should.be.true();
+				stubQiniu.restore();
+				done();
+			})
+		});
+
 		it('should not url parmas return error',function (done) {
 			request.post('/api/blog/fetchImage')
 			.set('Authorization','Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			});
+			.expect(422,done);
 		});
+
+
 	});
 
 	describe('get /api/blog/:id/getBlog',function () {
 		it('should return a article',function (done) {
 			request.get('/api/blog/' + mockArticleId + '/getBlog')
 			.set('Authorization', 'Bearer ' + token)
+			.expect('Content-Type', /json/)
+			.expect(200)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data._id.should.equal(mockArticleId.toString());
 				done();
 			})
@@ -211,8 +246,9 @@ describe('test/api/blog.test.js',function () {
 		it('should return blog list', function (done) {
 		  request.get('/api/blog/getFrontBlogList')
 		  	.expect('Content-Type', /json/)
+		  	.expect(200)
 		    .end(function (err, res) {
-		      should.not.exists(err);
+		    	if(err) return done(err);
 		      res.body.data.length.should.above(0);
 		      done();
 		    });
@@ -224,9 +260,10 @@ describe('test/api/blog.test.js',function () {
 		      sortName:'',
 		      tagId:'55e127401c2dbb2c4be93f6b'
 				})
+				.expect(200)
 				.expect('Content-Type', /json/)
 			  .end(function (err, res) {
-			    should.not.exists(err);
+			  	if(err) return done(err);
 			    res.body.data.length.should.above(0);
 			    done();
 			  });
@@ -237,8 +274,10 @@ describe('test/api/blog.test.js',function () {
 	describe('get /api/blog/getFrontBlogCount',function () {
 		it('should return blog list count',function (done) {
 			request.get('/api/blog/getFrontBlogCount')
+			.expect('Content-Type', /json/)
+			.expect(200)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.success.should.be.true();
 				res.body.count.should.be.Number();
 				done();
@@ -252,8 +291,10 @@ describe('test/api/blog.test.js',function () {
 		      sortName:'',
 		      tagId:'55e127401c2dbb2c4be93f6b'
 				})
+				.expect('Content-Type', /json/)
+				.expect(200)
 			  .end(function (err, res) {
-			    should.not.exists(err);
+			  	if(err) return done(err);
 			    res.body.success.should.be.true();
 			    res.body.count.should.above(0);
 			    done();
@@ -265,8 +306,10 @@ describe('test/api/blog.test.js',function () {
 	describe('get /api/blog/:id/getFrontArticle',function () {
 		it('should return article',function (done) {
 			request.get('/api/blog/' + mockArticleId + '/getFrontArticle')
+			.expect('Content-Type', /json/)
+			.expect(200)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data._id.should.equal(mockArticleId.toString());
 				done();
 			});
@@ -276,23 +319,38 @@ describe('test/api/blog.test.js',function () {
 
 
 	describe('get /api/blog/getIndexImage',function () {
+		var stubQiniu;
+		beforeEach(function () {
+			stubQiniu = sinon.stub(qiniuHelper,'list');
+		});
+		afterEach(function () {
+			qiniuHelper.list.restore();
+		});
+
 		it('should return index image',function (done) {
+			stubQiniu.returns(Promise.resolve({items:[{
+				key:'aaaabbbbdddddcccc'
+			}]}));
 			request.get('/api/blog/getIndexImage')
+			.expect(200)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if (err) return done(err);
 				res.body.success.should.be.true();
 				res.body.img.should.startWith('http://upload.jackhu.top');
+				stubQiniu.calledOnce.should.be.true();
 				done();
 			});
 		});
-
+		
 	});
 
 	describe('get /api/blog/:id/getPrenext', function() {
 		it('should return next and prev blog',function (done) {
 			request.get('/api/blog/' + mockArticleId + '/getPrenext')
+			.expect('Content-Type', /json/)
+			.expect(200)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if (err) return done(err);
 				res.body.data.next.should.be.Object;
 				res.body.data.prev.should.be.Object;
 				done();
@@ -305,8 +363,10 @@ describe('test/api/blog.test.js',function () {
 				sortName:'visit_count',
 				tagId:'55e127401c2dbb2c4be93f6b'
 			})
+			.expect('Content-Type', /json/)
+			.expect(200)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if (err) return done(err);
 				res.body.data.next.should.be.Object;
 				res.body.data.prev.should.be.Object;
 				done();
@@ -319,8 +379,10 @@ describe('test/api/blog.test.js',function () {
 		it('should add like return success',function (done) {
 			request.put('/api/blog/' + mockArticleId + '/toggleLike')
 			.set('Authorization', 'Bearer ' + token)
+			.expect('Content-Type', /json/)
+			.expect(200)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if (err) return done(err);
 				res.body.success.should.be.true();
 				res.body.count.should.be.equal(2);
 				res.body.isLike.should.be.true();
@@ -330,8 +392,10 @@ describe('test/api/blog.test.js',function () {
 		it('should when second toggle like return success',function (done) {
 			request.put('/api/blog/' + mockArticleId + '/toggleLike')
 			.set('Authorization', 'Bearer ' + token)
+			.expect('Content-Type', /json/)
+			.expect(200)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if (err) return done(err);
 				res.body.success.should.be.true();
 				res.body.count.should.be.equal(1);
 				res.body.isLike.should.be.false();
@@ -344,19 +408,16 @@ describe('test/api/blog.test.js',function () {
 		it('should when id error return error',function (done) {
 			request.del('/api/blog/ddddddd')
 			.set('Authorization', 'Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(500);
-				done();
-			});
+			.expect(500,done);
 
 		});
 
 		it('should return success',function (done) {
 			request.del('/api/blog/' + mockArticleId)
 			.set('Authorization', 'Bearer ' + token)
+			.expect(200)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if (err) return done(err);
 				res.body.success.should.be.true();
 				done();
 			})

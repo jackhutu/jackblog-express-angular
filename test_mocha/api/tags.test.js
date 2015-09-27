@@ -44,11 +44,7 @@ describe('test/api/tags.test.js',function () {
 			.send({
 				desc:'测试标签分类名'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
 
 		it('should return new tag category', function(done) {
@@ -58,8 +54,10 @@ describe('test/api/tags.test.js',function () {
 				name: catName,
 				desc:'测试标签分类名'
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				mockTagCatId = res.body.cat_id;
 				res.body.cat_id.should.be.String();
 				res.body.success.should.be.true();
@@ -73,11 +71,7 @@ describe('test/api/tags.test.js',function () {
 				name: catName,
 				desc:'测试标签分类名'
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(403);
-				done();
-			})
+			.expect(403,done);
 		});
 	});
 
@@ -90,12 +84,9 @@ describe('test/api/tags.test.js',function () {
 				cid:mockTagCatId,
 				is_show:true
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
+
 		it('should when not cid return error', function(done) {
 			request.post('/api/tags/addTag')
 			.set('Authorization','Bearer ' + token)
@@ -103,12 +94,9 @@ describe('test/api/tags.test.js',function () {
 				name:tagName,
 				is_show:true
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(422);
-				done();
-			})
+			.expect(422,done);
 		});
+
 		it('should return new tag', function(done) {
 			request.post('/api/tags/addTag')
 			.set('Authorization','Bearer ' + token)
@@ -117,8 +105,10 @@ describe('test/api/tags.test.js',function () {
 				cid:mockTagCatId,
 				is_show:true
 			})
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				mockTagId = res.body.tag_id;
 				res.body.tag_id.should.be.String();
 				res.body.success.should.be.true();
@@ -133,11 +123,7 @@ describe('test/api/tags.test.js',function () {
 				cid:mockTagCatId,
 				is_show:true
 			})
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(403);
-				done();
-			})
+			.expect(403,done);
 		});
 	});
 
@@ -150,8 +136,10 @@ describe('test/api/tags.test.js',function () {
 							name:'新的标签分类名称' + new Date().getTime(),
 							desc:'新的描述'
 						})
+						.expect(200)
+						.expect('Content-Type', /json/)
 						.end(function (err,res) {
-							should.not.exists(err);
+							if(err) return done(err);
 							res.body.cat_id.should.be.String();
 							res.body.success.should.be.true();
 							done();
@@ -167,8 +155,10 @@ describe('test/api/tags.test.js',function () {
 							_id:mockTagId,
 							name:'新的分类名称' + new Date().getTime()
 						})
+						.expect(200)
+						.expect('Content-Type', /json/)
 						.end(function (err,res) {
-							should.not.exists(err);
+							if(err) return done(err);
 							res.body.tag_id.should.be.String();
 							res.body.success.should.be.true();
 							done();
@@ -180,8 +170,10 @@ describe('test/api/tags.test.js',function () {
 		it('should return tag category list',function (done) {
 			request.get('/api/tags/getTagCatList')
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.length.should.be.above(0);
 				done();
 			});
@@ -193,8 +185,10 @@ describe('test/api/tags.test.js',function () {
 		it('should return tag list in category',function (done) {
 			request.get('/api/tags/' + mockTagCatId + '/getTagList')
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.length.should.be.above(0);
 				done();
 			});
@@ -204,8 +198,10 @@ describe('test/api/tags.test.js',function () {
 		it('should return all tag list',function (done) {
 			request.get('/api/tags/0/getTagList')
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.length.should.be.above(0);
 				done();
 			});
@@ -216,8 +212,10 @@ describe('test/api/tags.test.js',function () {
 	describe('get /api/tags/getFrontTagList',function () {
 		it('should return tag list to frontend',function (done) {
 			request.get('/api/tags/getFrontTagList')
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.data.length.should.be.above(0);
 				done();
 			});
@@ -229,11 +227,7 @@ describe('test/api/tags.test.js',function () {
 		it('should return error',function (done) {
 			request.del('/api/tags/' + mockTagCatId)
 			.set('Authorization','Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.Number(403);
-				done();
-			});
+			.expect(403,done);
 		});
 	});
 
@@ -241,19 +235,16 @@ describe('test/api/tags.test.js',function () {
 		it('should return error',function (done) {
 			request.del('/api/tags/dddddd/deleteTag')
 			.set('Authorization','Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(500);
-				done();
-			});
-
+			.expect(500,done);
 		});
 
 		it('should return success',function (done) {
 			request.del('/api/tags/' + mockTagId + '/deleteTag')
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.success.should.be.true();
 				done();
 			});
@@ -266,17 +257,15 @@ describe('test/api/tags.test.js',function () {
 		it('should return error',function (done) {
 			request.del('/api/tags/dddddd')
 			.set('Authorization','Bearer ' + token)
-			.end(function (err,res) {
-				should.not.exists(err);
-				res.status.should.be.equal(500);
-				done();
-			});
+			.expect(500,done);
 		});
 		it('should return success',function (done) {
 			request.del('/api/tags/' + mockTagCatId)
 			.set('Authorization','Bearer ' + token)
+			.expect(200)
+			.expect('Content-Type', /json/)
 			.end(function (err,res) {
-				should.not.exists(err);
+				if(err) return done(err);
 				res.body.success.should.be.true();
 				done();
 			});

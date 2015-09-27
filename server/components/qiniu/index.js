@@ -19,6 +19,14 @@ var statFile = Promise.promisify(client.stat, client);
 var fetchFile = Promise.promisify(client.fetch, client);
 var allList = Promise.promisify(qiniu.rsf.listPrefix, qiniu.ref);
 
+exports.uploadFile = uploadFile;
+exports.moveFile = moveFile;
+exports.copyFile = copyFile;
+exports.removeFile = removeFile;
+exports.statFile = statFile;
+exports.fetchFile = fetchFile;
+exports.allList = allList;
+
 //获取上传凭证
 function getUptoken(bucketname) {
   var putPolicy = new qiniu.rs.PutPolicy(bucketname);
@@ -26,20 +34,20 @@ function getUptoken(bucketname) {
 }
 //不同空间可以相互操作,在这里只在一个空间下操作
 var bucket = config.qiniu.bucket;
-
+exports.bucket = bucket;
 //将网络图片上传到七牛服务器
 exports.fetch = function (url,key) {
-	return fetchFile(url,bucket,key).spread(function (result,response) {
+	return this.fetchFile(url,bucket,key).spread(function (result,response) {
 		result.url = config.qiniu.domain + result.key;
 		return result;
-	})
+	});
 }
 
 //上传文件
 exports.upload = function (path,key) {
 	var extra = new qiniu.io.PutExtra();
 	var uptoken = getUptoken(config.qiniu.bucket);
-	return uploadFile(uptoken, key, path, extra).spread(function(result,response){
+	return this.uploadFile(uptoken, key, path, extra).spread(function(result,response){
 		result.url = config.qiniu.domain + result.key;
     return result;
   });
@@ -49,7 +57,7 @@ exports.upload = function (path,key) {
 exports.move = function(keySrc,keyDest){
 	var bucketSrc,bucketDest;
 	bucketSrc = bucketDest = bucket;
-  return moveFile(bucketSrc, keySrc, bucketDest, keyDest).spread(function (result,response) {
+  return this.moveFile(bucketSrc, keySrc, bucketDest, keyDest).spread(function (result,response) {
   	return result;
   });
 };
@@ -57,13 +65,13 @@ exports.move = function(keySrc,keyDest){
 exports.copy = function(keySrc,keyDest){
 	var bucketSrc,bucketDest;
 	bucketSrc = bucketDest = bucket;
-  return copyFile(bucketSrc, keySrc, bucketDest, keyDest).spread(function (result,response) {
+  return this.copyFile(bucketSrc, keySrc, bucketDest, keyDest).spread(function (result,response) {
   	return result;
   });
 };
 
 exports.remove = function(key){
-	removeFile(bucket,key).spread(function (result,response) {
+	return this.removeFile(bucket,key).spread(function (result,response) {
 		return result;
 	})
 };
@@ -73,8 +81,9 @@ prefix 想要查询的资源前缀缺省值为空字符串,limit 限制条数缺
 marker 上一次列举返回的位置标记，作为本次列举的起点信息。缺省值为空字符串
  */
 exports.list = function(prefix, marker, limit){
-  return allList(bucket, prefix, marker, limit).spread(function(result,response){
+  return this.allList(bucket, prefix, marker, limit).spread(function(result,response){
     return result;
   })
 };
+
 
