@@ -58,6 +58,27 @@ describe('test/api/blog.test.js',function () {
 			})
 			.expect(422,done);
 		});
+
+		// it('should throw error return 500',function (done) {
+		// 	var stubArticle = sinon.stub(Article,'createAsync');
+		// 	stubArticle.returns(new TypeError('error message'));
+
+		// 	request.post('/api/blog/addBlog')
+		// 	.set('Authorization','Bearer ' + token)
+		// 	.send({
+		// 		title:'测试文章标题' + new Date().getTime(),
+		// 		content:'测试文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
+		// 		status:1,
+		// 		tags:['55e127401c2dbb2c4be93f6b']
+		// 	})
+		// 	.expect(500)
+		// 	.end(function (err,res) {
+		// 		if(err) return done(err);
+		// 		stubArticle.restore();
+		// 		done();
+		// 	});
+		// });
+
 		it('should create a new article',function (done) {
 			request.post('/api/blog/addBlog')
 			.set('Authorization','Bearer ' + token)
@@ -102,6 +123,29 @@ describe('test/api/blog.test.js',function () {
 
 		});
 
+		// it('should return status 500',function (done) {
+		// 	var stubArticle = sinon.stub(Article,'findByIdAndUpdateAsync');
+		// 	stubArticle.returns(new TypeError('Error message'));
+
+		// 	request.put('/api/blog/' + mockArticleId + '/updateBlog')
+		// 	.set('Authorization','Bearer ' + token)
+		// 	.send({
+		// 		_id:mockArticleId,
+		// 		title:'更新的标题' + new Date().getTime(),
+		// 		content:'更新的文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
+		// 		status:1,
+		// 		isRePub:true
+		// 	})
+		// 	.expect(500)
+		// 	.end(function (err,res) {
+		// 		if(err) return done(err);
+		// 		stubArticle.restore();
+		// 		done();
+		// 	});
+
+		// });
+
+
 		it('should return update a article',function (done) {
 			request.put('/api/blog/' + mockArticleId + '/updateBlog')
 			.set('Authorization','Bearer ' + token)
@@ -124,6 +168,19 @@ describe('test/api/blog.test.js',function () {
 	});
 
 	describe('get /api/blog/getBlogList',function () {
+
+		// it('should return 500',function (done) {
+		// 	var stubArticle = sinon.stub(Article,'find');
+		// 	stubArticle.returns(new TypeError('Error message'));
+		// 		request.get('/api/blog/getBlogList')
+		// 		.set('Authorization','Bearer ' + token)
+		// 		.expect(500)
+		// 		.end(function (err,res) {
+		// 			if(err) return done(err);
+		// 			stubArticle.restore();
+		// 			done();
+		// 		});
+		// });
 
 		it('should return blog list',function (done) {
 			request.get('/api/blog/getBlogList')

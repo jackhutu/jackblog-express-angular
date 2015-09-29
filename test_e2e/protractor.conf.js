@@ -1,4 +1,4 @@
-// conf.js
+// protractor 配置
 exports.config = {
 	allScriptsTimeout: 11000,
 

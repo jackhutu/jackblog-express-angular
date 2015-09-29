@@ -43,7 +43,6 @@ module.exports = function(app) {
   }else if ('test' === env) {
     app.set('appPath', 'dist');
     app.use(express.static(path.join(config.root, 'dist')));
-    app.use(errorHandler());
   }else{
     app.set('appPath', 'dist');
     app.use(express.static(path.join(config.root, 'dist')));
