@@ -50,7 +50,7 @@
     "gulp-flatten": "^0.2.0",
     "gulp-imagemin": "^2.3.0",
     "gulp-inject": "^2.2.0",
-    "gulp-istanbul": "^0.10.0",
+    "gulp-istanbul": "^0.10.1",
     "gulp-jshint": "^1.11.2",
     "gulp-load-plugins": "^0.10.0",
     "gulp-minify-html": "^1.0.4",

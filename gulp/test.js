@@ -21,41 +21,35 @@ gulp.task('set-env', function () {
 	});
 });
 //istanbul
-gulp.task('test:istanbul',['set-env'],function () {
-	gulp.src([
-			path.join(config.paths.server,'/**/*.js'),
-			path.join('!' + config.paths.server,'/config/**/*.js'),
-			path.join('!' + config.paths.server,'/auth/**/*.js'),
-			path.join('!' + config.paths.server,'/{app,routes}.js'),
-			path.join('!' + config.paths.server,'/model/**/*.js')
-		])
-			.pipe(istanbul()) // Covering files
-			.pipe(istanbul.hookRequire()) // Force `require` to return covered files
-			.on('finish', function () {
-				gulp.src(path.join(config.paths.mocha,'/**/*.test.js'),{read: false})
-						.pipe(mocha({
-							require: ['should'],
-							timeout: 5000
-						}))
-						.pipe(istanbul.writeReports({
-							dir: path.join(config.paths.istanbul,'/')
-						}))
-						.pipe(istanbul.enforceThresholds({ thresholds: { 
-							global: {
-								statements: 80,
-								branches: 80,
-								lines: 90,
-								functions: 75
-							},
-							each: 60
-						}}))
-						.once('error', function () {
-						    process.exit(1);
-						})
-						.once('end', function () {
-						    process.exit();
-						});
-			});
+gulp.task('pre-test', function () {
+  return gulp.src([
+						path.join(config.paths.server,'/**/*.js'),
+						path.join('!' + config.paths.server,'/config/**/*.js'),
+						path.join('!' + config.paths.server,'/auth/**/*.js'),
+						path.join('!' + config.paths.server,'/{app,routes}.js'),
+						path.join('!' + config.paths.server,'/model/**/*.js')
+					])
+					.pipe(istanbul()) // Covering files
+					.pipe(istanbul.hookRequire()) 
+});
+
+gulp.task('test:istanbul',['set-env','pre-test'],function () {
+
+		gulp.src(path.join(config.paths.mocha,'/**/*.test.js'),{read: false})
+				.pipe(mocha({
+					require: ['should'],
+					timeout: 5000
+				}))
+				.pipe(istanbul.writeReports({
+					dir: path.join(config.paths.istanbul,'/')
+				}))
+				.once('error', function () {
+				    process.exit(1);
+				})
+				.once('end', function () {
+				    process.exit();
+				});
+
 });
 //mocha test
 gulp.task('test:mocha',['set-env'],function () {
@@ -80,12 +74,11 @@ gulp.task('webdriver-update', webdriver_update);
 gulp.task('test:protractor',function () {
 	gulp.src(path.join(config.paths.e2e,'/spec.js'))
 	  .pipe(protractor({
-	  	configFile: path.join(config.paths.e2e,'/protractor.conf.js'),
-	  	args: ['--baseUrl', 'http://localhost:8080']
+	  	configFile: path.join(config.paths.e2e,'/protractor.conf.js')
 	  })).on('error', function (err) {
-      throw err;
+       process.exit(1);
     }).once('end', function () {
-        process.exit();
+       process.exit();
     });
 });
 gulp.task('test:e2e',gulpSequence('clean',['build','webdriver-update'],'nodemon:test','test:protractor'));

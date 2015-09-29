@@ -55,29 +55,9 @@ gulp.task('inject_sass',function () {
 
 /*****************CSS(SASS编译) start*********************************************/
 gulp.task('styles:sass',['inject_sass'],function () {
-	//1,将所有scss文件注入到index.scss
-	// var injectFiles = gulp.src([
-	// 		path.join(config.paths.src,'app/**/*.scss'),
-	// 		path.join('!'+ config.paths.src, 'app/index.scss')
-	// 	],{read:false});
-
-	// /**
-	//  * 参考API:https://github.com/klei/gulp-inject#optionsstarttag
-	//  */
-	// var injectOptions = {
-	//   transform: function(filePath) {
-	//     filePath = filePath.replace(config.paths.src + '/app/', '');
-	//     return '@import "' + filePath + '";';
-	//   },
-	//   starttag: '// injector',
-	//   endtag: '// endinjector',
-	//   addRootSlash: false
-	// };
 
 	return gulp.src(path.join(config.paths.src,'app/index.scss'))
 		.pipe($.plumber(config.errorHandler()))
-		//.pipe($.inject(injectFiles,injectOptions))
-		//.pipe(wiredep(_.assign({}, config.wiredep)))
 		.pipe($.sourcemaps.init())
 		.pipe($.sass({outputStyle: 'expanded'}))
 		.pipe($.autoprefixer())

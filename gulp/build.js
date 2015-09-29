@@ -28,72 +28,6 @@ gulp.task('partials', function () {
     .pipe(gulp.dest(config.paths.tmp + '/partials/'));
 });
 /*****************angular模板合成JS end*********************************************/
-// gulp.task('html', ['inject', 'partials'], function () {
-//   var partialsInjectFile = gulp.src(path.join(config.paths.tmp, '/partials/templateCacheHtml.js'), { read: false });
-//   var partialsInjectOptions = {
-//     starttag: '<!-- inject:partials -->',
-//     ignorePath: path.join(config.paths.tmp, '/partials'),
-//     addRootSlash: false
-//   };
-
-//   // var htmlFilter = $.filter('*.html');
-//   // var jsFilter = $.filter('**/*.js');
-//   // var cssFilter = $.filter('**/*.css');
-//   	var htmlFilter = $.filter('*.html',{restore: true});
-//   	var jsFilter = $.filter('**/*.js',{restore: true});
-//   	var cssFilter = $.filter('**/*.css',{restore: true});
-//   var assets = $.useref.assets();
-
-//   // var jsChange = $.lazypipe()
-//   //   .pipe($.ngAnnotate)
-//   //   .pipe($.uglify,{ preserveComments: $.uglifySaveLicense });
-  
-//   // var cssChange = $.lazypipe()
-//   //   .pipe($.replace,'../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/', '../fonts/')
-//   //   .pipe($.csso);
-    
-
-//   return gulp.src(path.join(config.paths.tmp, '/serve/*.html'))
-//     .pipe($.inject(partialsInjectFile, partialsInjectOptions))
-//     .pipe(assets)
-//     //.pipe($.rev())
-
-//     // .pipe($.if('*.js',jsChange()))
-//     // .pipe($.if('*.css',cssChange()))
-//     // .pipe($.if('*.js',$.ngAnnotate()))
-//     // .pipe($.if('*.js',$.uglify({ preserveComments: $.uglifySaveLicense })).on('error', conf.errorHandler('Uglify')))
-//     // .pipe($.if('*.css',$.replace('../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/', '../fonts/')))
-//     // .pipe($.if('*.css',$.csso()))
-
-//     .pipe(jsFilter)
-//     .pipe($.ngAnnotate())
-//     .pipe($.uglify({ preserveComments: $.uglifySaveLicense }))
-//     .pipe(jsFilter.restore)
-//     .pipe(cssFilter)
-//     .pipe($.replace('../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/', '../fonts/'))
-//     .pipe($.csso())
-//     .pipe(cssFilter.restore)
-//     .pipe($.rev())
-//     .pipe(assets.restore())
-//     .pipe($.useref())
-//     .pipe($.revReplace())
-//     // .pipe($.if('*.html',$.minifyHtml({
-//     //   empty: true,
-//     //   spare: true,
-//     //   quotes: true,
-//     //   conditionals: true
-//     // })))
-//     .pipe(htmlFilter)
-//     .pipe($.minifyHtml({
-//       empty: true,
-//       spare: true,
-//       quotes: true,
-//       conditionals: true
-//     }))
-//     .pipe(htmlFilter.restore)
-//     .pipe(gulp.dest(path.join(config.paths.dist, '/')))
-//     .pipe($.size({ title: path.join(config.paths.dist, '/'), showFiles: true }));
-// });
 
 /*****************html(压缩合并js,css,html) start*********************/
 gulp.task('html',['inject','partials'],function () {
@@ -186,7 +120,5 @@ gulp.task('other',function () {
 });
 /*****************复制其它文件 end*********************/
 
-
-//gulp.task('build',['html','fonts','images','other']);
 //按顺序执行任务,images需要在html之后执行
 gulp.task('build',$.sequence(['html'],['fonts','images'],'other'));
