@@ -44,6 +44,7 @@
     "gulp-angular-templatecache": "^1.7.0",
     "gulp-autoprefixer": "^3.0.1",
     "gulp-compass": "^2.1.0",
+    "gulp-coveralls": "^0.1.4",
     "gulp-csso": "^1.0.0",
     "gulp-env": "^0.2.0",
     "gulp-filter": "^3.0.1",

@@ -104,3 +104,10 @@ gulp.task('tdd:karma', function (done) {
   }, done).start();
 });
 
+//coveralls
+gulp.task('coveralls',function () {
+	gulp.src(path.join(config.paths.istanbul, '/lcov.info'))
+		.pipe($.coveralls());
+});
+
+gulp.task('test',gulpSequence('test:karma','test:istanbul'));
