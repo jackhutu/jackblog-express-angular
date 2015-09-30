@@ -47,24 +47,16 @@
           currentUser = {};
         },
 
-        /**
-         * Gets all available info on authenticated user
-         */
         getCurrentUser: function() {
           return currentUser;
         },
 
-        /**
-         * Check if a user is logged in
-         *
-         * @return {Boolean}
-         */
         isLoggedIn: function() {
           return currentUser.hasOwnProperty('role');
         },
 
         /**
-         * Waits for currentUser to resolve before checking if user is logged in
+         * 检测用户是否登录
          */
         isLoggedInAsync: function(cb) {
           if(currentUser.hasOwnProperty('$promise')) {
@@ -79,24 +71,18 @@
             cb(false);
           }
         },
+
         isLike: function (aid) {
           var index = lodash.findIndex(currentUser.likes,function (item) {
             return item.toString() === aid;
           });
           return (index !== -1)?true:false;
         },
-        /**
-         * Check if a user is an admin
-         *
-         * @return {Boolean}
-         */
+
         isAdmin: function() {
           return currentUser.role === 'admin';
         },
 
-        /**
-         * Get auth token
-         */
         getToken: function() {
           return $cookies.get('token');
         }
