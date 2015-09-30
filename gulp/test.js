@@ -10,7 +10,7 @@ var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
 var env = require('gulp-env');
 var gulpSequence = require('gulp-sequence');
-
+var coveralls = require('gulp-coveralls');
 
 //设置环境变量,mocha,istanbul测试必须在test mode
 gulp.task('set-env', function () {
@@ -107,7 +107,7 @@ gulp.task('tdd:karma', function (done) {
 //coveralls
 gulp.task('coveralls',function () {
 	gulp.src(path.join(config.paths.istanbul, '/lcov.info'))
-		.pipe($.coveralls());
+		.pipe(coveralls());
 });
 
-gulp.task('test',gulpSequence('test:karma','test:istanbul'));
+gulp.task('test',gulpSequence('test:istanbul'));

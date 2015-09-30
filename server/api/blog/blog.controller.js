@@ -28,7 +28,6 @@ exports.addBlog = function (req,res) {
 	}
 	//将图片提取存入images,缩略图调用
 	req.body.images = tools.extractImage(content);
-
 	return Blog.createAsync(req.body).then(function (result) {
 		return res.status(200).json({success: true,article_id:result._id});
 	}).catch(function (err) {
@@ -154,10 +153,11 @@ exports.fetchImage = function (req,res) {
 }
 //前台获取博客数量
 exports.getFrontBlogCount = function (req,res) {
-	var tagId = req.query.tagId;
 	var condition = {status:{$gt:0}};
-	if(tagId){
-		condition = _.defaults(condition,{ tags: { $elemMatch: { $eq:mongoose.Types.ObjectId(tagId) } } });
+	if(req.query.tagId){
+		//tagId = new mongoose.Types.ObjectId(tagId);
+		var tagId = String(req.query.tagId);
+		condition = _.defaults(condition,{ tags: { $elemMatch: { $eq:tagId } } });
 	}
 	Blog.countAsync(condition).then(function (count) {
 		return res.status(200).json({success:true,count:count});
@@ -173,9 +173,10 @@ exports.getFrontBlogList = function (req,res) {
 	var sort = String(req.query.sortName) || "publish_time";
 	sort = "-" + sort;
 	var condition = {status:{$gt:0}};
-	var tagId = req.query.tagId;
-	if(tagId){
-		condition = _.defaults(condition,{ tags: { $elemMatch: { $eq:mongoose.Types.ObjectId(tagId) } } });
+	if(req.query.tagId){
+		//tagId = new mongoose.Types.ObjectId(tagId);
+		var tagId = String(req.query.tagId);
+		condition = _.defaults(condition,{ tags: { $elemMatch: { $eq:tagId } } });		
 	}
 	Blog.find(condition)
 		.select('title images visit_count comment_count like_count publish_time')
@@ -212,13 +213,14 @@ exports.getPrenext = function (req,res) {
 	var id = req.params.id;
 	var sort = String(req.query.sortName) || "publish_time";
 	//sort = "-" + sort;
-	var tagId = req.query.tagId;
 	var preCondition,nextCondition;
 	preCondition = {status:{$gt:0}};
 	nextCondition = {status:{$gt:0}};
-	if(tagId){
-		preCondition =  _.defaults(preCondition,{ tags: { $elemMatch: { $eq:mongoose.Types.ObjectId(tagId) } } });
-		nextCondition =  _.defaults(nextCondition,{ tags: { $elemMatch: { $eq:mongoose.Types.ObjectId(tagId) } } });
+	if(req.query.tagId){
+		//tagId = new mongoose.Types.ObjectId(tagId);
+		var tagId = String(req.query.tagId);
+		preCondition =  _.defaults(preCondition,{ tags: { $elemMatch: { $eq:tagId } } });
+		nextCondition =  _.defaults(nextCondition,{ tags: { $elemMatch: { $eq:tagId } } });
 	}
 	Blog.findByIdAsync(id).then(function (article) {
 		//先获取文章,
@@ -247,7 +249,6 @@ exports.getPrenext = function (req,res) {
 				return {'next':next,'prev':prev};
 			})
 		}).then(function (result) {
-			//console.log(result);
 			return res.status(200).json({data:result});
 		})
 	}).catch(function (err) {
@@ -279,7 +280,7 @@ exports.getIndexImage = function (req,res) {
 }
 //用户喜欢
 exports.toggleLike = function (req,res) {
-	var aid = mongoose.Types.ObjectId(req.params.id);
+	var aid = new mongoose.Types.ObjectId(req.params.id);
   var userId = req.user._id;
   //如果已经喜欢过了,则从喜欢列表里,去掉文章ID,并减少文章喜欢数.否则添加到喜欢列表,并增加文章喜欢数.	
   //var isLink = _.indexOf(req.user.likeList.toString(), req.params.id);
@@ -296,7 +297,7 @@ exports.toggleLike = function (req,res) {
   	conditionTwo = {'$inc':{'like_count':1}};
   	liked = true;
   }
- 
+
   User.findByIdAndUpdateAsync(userId,conditionOne).then(function (user) {
   	return Blog.findByIdAndUpdateAsync(aid,conditionTwo,{new:true}).then(function (blog) {
   		return res.status(200).json({success:true,'count':blog.like_count,'isLike':liked});

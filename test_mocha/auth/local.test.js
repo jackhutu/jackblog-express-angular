@@ -3,7 +3,7 @@ var request = require('supertest')(app);
 var should = require("should"); 
 var mongoose = require('mongoose'),
 	User = mongoose.model('User');
-
+  Logs = mongoose.model('Logs');
 describe('test/auth/local.test.js',function () {
 	//测试需要一篇文章,和这篇文章的评论.
 	var mockUsers = [
@@ -40,7 +40,8 @@ describe('test/auth/local.test.js',function () {
 	after(function (done) {
 		//删除测试用户和log
 		User.removeAsync({email:{$in:mockUsers}}).then(function () {
-				done();
+				Logs.removeAsync();
+			done();
 		});
 	});
 

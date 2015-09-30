@@ -47,9 +47,8 @@ describe('test/api/logs.test.js',function () {
 	after(function (done) {
 		//删除测试用户和log
 		User.findByIdAndRemoveAsync(mockUserId).then(function (user) {
-			return Logs.findByIdAndRemoveAsync(mockLogId).then(function () {
-				done();
-			});
+			Logs.removeAsync();
+			done();
 		});
 	});
 

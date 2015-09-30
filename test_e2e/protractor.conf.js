@@ -19,6 +19,6 @@ exports.config = {
     defaultTimeoutInterval: 30000
   },
   //gulp-protractor 配置
-  seleniumServerJar: '../node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
+  seleniumServerJar: '../node_modules/protractor/selenium/selenium-server-standalone-2.47.1.jar',
   chromeDriver: '../node_modules/protractor/selenium/chromedriver'
 }

@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var TagCategory = mongoose.model('TagCategory');
 var Tag = mongoose.model('Tag');
-
+var Logs = mongoose.model('Logs');
 
 describe('test/api/user.test.js',function () {
 	var token,mockUserId,mockAdminId,mockUpdateNickName,mockAdminNickname = '测试' + new Date().getTime();
@@ -32,6 +32,7 @@ describe('test/api/user.test.js',function () {
 
 		after(function (done) {
 			User.findByIdAndRemoveAsync(mockAdminId).then(function () {
+				Logs.removeAsync();
 				done();
 			});
 		});
