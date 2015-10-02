@@ -4,6 +4,8 @@ env:
   - CXX=g++-4.8
 node_js:
   - "4.1"
+  - "iojs"
+  - '0.12'
 services:
   - mongodb
 addons:
