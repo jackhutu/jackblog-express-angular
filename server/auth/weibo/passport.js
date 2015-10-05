@@ -49,21 +49,6 @@ exports.setup = function (User,config) {
         })
       }else {
         return done(new Error('您已经是登录状态了'));
-        // var user = req.user;
-        // //判断用户是否已经使用了这个provier则提示错误
-        // if(!user.weibo.id){
-        //   if(!user.avatar){
-        //     user.avatar = profile._json.avatar_large || '';
-        //   }
-        //   user.weibo = profile._json;
-        //   user.save(function(err) {
-        //     if (err) return done(err);
-        //     done(err, user);
-        //   });
-        // }else{
-        //   return done(new Error('User is already connected using this provider'), user);
-        // }
-
       }
 
 

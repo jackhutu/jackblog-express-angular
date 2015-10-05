@@ -8,7 +8,7 @@ var router = express.Router();
 // qq ---------------------------------
 
 router
-  .get('/', passport.authenticate('qq', {
+  .get('/', auth.snsPassport(), passport.authenticate('qq', {
     failureRedirect: '/',
     session: false
   }))

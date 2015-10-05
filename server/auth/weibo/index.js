@@ -8,7 +8,7 @@ var router = express.Router();
 // weibo ---------------------------------
 
 router
-  .get('/', passport.authenticate('weibo', {
+  .get('/', auth.snsPassport(), passport.authenticate('weibo', {
     failureRedirect: '/',
     session: false
   }))
