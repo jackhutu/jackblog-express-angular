@@ -81,7 +81,7 @@ gulp.task('test:protractor',function () {
        process.exit();
     });
 });
-gulp.task('test:e2e',gulpSequence('clean',['build','webdriver-update'],'nodemon:test','test:protractor'));
+gulp.task('test:e2e',gulpSequence('clean',['build:e2e','webdriver-update'],'nodemon:test','test:protractor'));
 /**
  * Run test once and exit
  */

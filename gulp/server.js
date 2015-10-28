@@ -106,7 +106,7 @@ function browserSyncInit (baseDir) {
 // 	browserSyncInit([path.join(config.paths.tmp, '/serve'), config.paths.src]);
 // });
 gulp.task('serve',function () {
-	gulpSequence('nodemon','watch',function () {
+	gulpSequence('nodemon',['dev-config','watch'],function () {
 		browserSyncInit([path.join(config.paths.tmp, '/serve'), config.paths.src]);
 	});
 });

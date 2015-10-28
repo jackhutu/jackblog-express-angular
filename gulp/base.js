@@ -9,7 +9,36 @@ var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'event-stream', 'main-bower-files', 'uglify-save-license', 'del']
 });
 var browserSync = require('browser-sync');
+var gulpNgConfig = require('gulp-ng-config');
 
+//配置环境任务
+gulp.task('dev-config',function () {
+  return gulp.src('app.conf.json')
+        .pipe(gulpNgConfig('jackblog',{
+          environment: 'development',
+          createModule: false,
+          wrap: "(function(){\n 'use strict'; \n <%= module %> \n })();"
+        }))
+        .pipe(gulp.dest(path.join(config.paths.src,'/app')))
+});
+gulp.task('test-config',function () {
+  return gulp.src('app.conf.json')
+        .pipe(gulpNgConfig('jackblog',{
+          environment: 'test',
+          createModule: false,
+          wrap: "(function(){\n 'use strict'; \n <%= module %> \n })();"
+        }))
+        .pipe(gulp.dest(path.join(config.paths.src,'/app')))
+});
+gulp.task('prod-config',function () {
+  return gulp.src('app.conf.json')
+        .pipe(gulpNgConfig('jackblog',{
+          environment: 'production',
+          createModule: false,
+          wrap: "(function(){\n 'use strict'; \n <%= module %> \n })();"
+        }))
+        .pipe(gulp.dest(path.join(config.paths.src,'/app')))
+});
 /*****************代码检查 start*********************************************/
 gulp.task('scripts',function () {
 	return gulp.src(path.join(config.paths.src,'app/**/*.js'))

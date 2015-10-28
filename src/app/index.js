@@ -20,12 +20,12 @@
 			'jackblog.article',
 			'jackblog.settings'
 		])
-	.config(function ($logProvider,$stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+	.config(function ($logProvider,$stateProvider, $urlRouterProvider, $locationProvider, $httpProvider,IsDebug) {
 	  $locationProvider.html5Mode(true);
 	  $httpProvider.defaults.timeout = 500000;
 	  $httpProvider.interceptors.push('AuthInterceptor');
 	  // Enable log
-	  $logProvider.debugEnabled(true);
+	  $logProvider.debugEnabled(IsDebug);
 	  $urlRouterProvider.otherwise('/');
 	})
 	  .run(function ($rootScope, ngProgressFactory, $state, lodash, Auth, Blog, $cookies, CustomModalService, toaster) {

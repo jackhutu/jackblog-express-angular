@@ -121,4 +121,5 @@ gulp.task('other',function () {
 /*****************复制其它文件 end*********************/
 
 //按顺序执行任务,images需要在html之后执行
-gulp.task('build',$.sequence(['html'],['fonts','images'],'other'));
+gulp.task('build',$.sequence('prod-config',['html'],['fonts','images'],'other'));
+gulp.task('build:e2e',$.sequence('test-config',['html'],['fonts','images'],'other'));
